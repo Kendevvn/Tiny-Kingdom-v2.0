@@ -1537,10 +1537,24 @@
         };
         function getWorldBuildingName(type){ return WORLD_BUILDINGS[type]?.name || type; }
         function renderWorldBuildingButtons(index){
-            return Object.entries(WORLD_BUILDINGS).map(([type,b])=>`<button onclick="buildWorldBuilding(${index},'${type}')">${b.icon} ${b.name}<small>${b.gold}🪙 ${b.wood}🪵 ${b.stone}🧱</small></button>`).join('');
+            return Object.entries(WORLD_BUILDINGS).map(([type,b])=>{
+                const cost = worldBuildingCost(type,1);
+                const inflation = cost.count > 0 ? ` · +${Math.round((cost.inflationMult - 1) * 100)}%` : '';
+                return `<button onclick="buildWorldBuilding(${index},'${type}')">${b.icon} ${b.name}<small>${cost.gold}🪙 ${cost.wood}🪵 ${cost.stone}🧱${inflation}</small></button>`;
+            }).join('');
         }
         function worldBuildingCost(type, level=1){
-            const b=WORLD_BUILDINGS[type]; const mod=technologies.assembly_line.researched?0.8:1; const mult=Math.max(1,level); return {gold:Math.floor(b.gold*mod*mult),wood:Math.floor(b.wood*mod*mult),stone:Math.floor(b.stone*mod*mult)};
+            const b=WORLD_BUILDINGS[type];
+            const base = BUILDING_BASE_COSTS[type] || b;
+            const buildCost = getConstructionCost(type);
+            const levelMult = Math.max(1, level);
+            return {
+                gold: Math.max(1, Math.floor((buildCost?.gold ?? base.gold) * levelMult)),
+                wood: base.wood ? Math.max(1, Math.floor((buildCost?.wood ?? base.wood) * levelMult)) : 0,
+                stone: base.stone ? Math.max(1, Math.floor((buildCost?.stone ?? base.stone) * levelMult)) : 0,
+                count: buildCost?.count ?? getTotalBuildingCount(type),
+                inflationMult: buildCost?.inflationMult ?? 1
+            };
         }
         function buildWorldBuilding(index,type){
             ensureWorldMapState(); const state=worldMapState.factions.player, cell=state.cells[index]; const b=WORLD_BUILDINGS[type];
@@ -1548,7 +1562,8 @@
             const cost=worldBuildingCost(type,1); if(stats.gold<cost.gold||stats.wood<cost.wood||stats.stone<cost.stone){log(`❌ Không đủ tài nguyên. Cần ${cost.gold}🪙, ${cost.wood}🪵, ${cost.stone}🧱.`);return;}
             stats.gold-=cost.gold; stats.wood-=cost.wood; stats.stone-=cost.stone; cell.building=type; cell.level=1;
             if(type==='tower') cell.defense=Math.min(100,cell.defense+15); if(type==='house') stats.maxPop+=6;
-            log(`🏗️ Xây ${b.name} Lv.1 tại World Map thành công!`); updateUI(); renderWorldMap(); playSound('build');
+            log(`🏗️ Xây ${b.name} Lv.1 tại World Map thành công! Chi phí: ${cost.gold}🪙 ${cost.wood}🪵 ${cost.stone}🧱.`);
+            updateUI(); renderWorldMap(); playSound('build');
         }
         function upgradeWorldBuilding(index){
             const cell=worldMapState.factions.player.cells[index]; if(!cell?.building)return; if((cell.level||1)>=5){log('⚠️ Công trình World Map đã đạt Lv.5.');return;}
@@ -2014,6 +2029,7 @@
         }
 
         function updateUI() {
+            updateBuildingCostUI();
             document.getElementById('maxStorage').innerText = getMaxStorage();
             document.getElementById('gold').innerText = stats.gold;
             document.getElementById('food').innerText = stats.food;
@@ -2152,6 +2168,73 @@
             }
         });
 
+        // ===== CHI PHÍ XÂY DỰNG TĂNG DẦN THEO SỐ LƯỢNG CÔNG TRÌNH =====
+        // Mỗi công trình cùng loại đã tồn tại làm giá xây công trình tiếp theo tăng 12%.
+        // Giá tối đa bị giới hạn ở 3x để tránh late-game trở thành bất khả thi.
+        const BUILDING_COST_INFLATION = 0.12;
+        const BUILDING_COST_MAX_MULT = 3.0;
+        const BUILDING_BASE_COSTS = {
+            farm:     { name:'Trang Trại',      icon:'🌾', gold:20, wood:8,  stone:0 },
+            mine:     { name:'Mỏ Quặng',        icon:'⛏️', gold:25, wood:12, stone:0 },
+            lumber:   { name:'Trại Gỗ',         icon:'🪓', gold:15, wood:0,  stone:0 },
+            quarry:   { name:'Mỏ Đá',           icon:'🧱', gold:30, wood:15, stone:0 },
+            warehouse:{ name:'Kho Chứa',        icon:'📦', gold:25, wood:15, stone:0 },
+            hunter:   { name:'Chòi Săn',        icon:'🏹', gold:20, wood:10, stone:0 },
+            crystal:  { name:'Tháp Ma Thạch',   icon:'🔮', gold:50, wood:0,  stone:30 },
+            academy:  { name:'Học Viện',        icon:'📚', gold:40, wood:20, stone:20 },
+            house:    { name:'Nhà Dân',         icon:'🏠', gold:15, wood:10, stone:0 },
+            market:   { name:'Chợ',             icon:'🏛️', gold:45, wood:25, stone:0 },
+            tower:    { name:'Tháp Canh',       icon:'🗼', gold:35, wood:0,  stone:20 }
+        };
+
+        function getTotalBuildingCount(type) {
+            let count = 0;
+            if (Array.isArray(gridData)) {
+                gridData.forEach(cell => { if (cell && cell.type === type) count++; });
+            }
+            if (typeof worldMapState !== 'undefined' && worldMapState?.factions?.player?.cells) {
+                worldMapState.factions.player.cells.forEach(cell => {
+                    if (cell && cell.owner === 'player' && cell.building === type) count++;
+                });
+            }
+            return count;
+        }
+
+        function getConstructionCost(type) {
+            const base = BUILDING_BASE_COSTS[type];
+            if (!base) return null;
+            const count = getTotalBuildingCount(type);
+            const inflationMult = Math.min(BUILDING_COST_MAX_MULT, 1 + count * BUILDING_COST_INFLATION);
+            const techMod = technologies?.assembly_line?.researched ? 0.8 : 1.0;
+            const mult = inflationMult * techMod;
+            return {
+                gold: Math.max(1, Math.floor(base.gold * mult)),
+                wood: base.wood ? Math.max(1, Math.floor(base.wood * mult)) : 0,
+                stone: base.stone ? Math.max(1, Math.floor(base.stone * mult)) : 0,
+                count, inflationMult, techMod
+            };
+        }
+
+        function formatConstructionCost(cost) {
+            if (!cost) return '';
+            const parts = [`${cost.gold}🪙`];
+            if (cost.wood) parts.push(`${cost.wood}🪵`);
+            if (cost.stone) parts.push(`${cost.stone}🧱`);
+            return parts.join(', ');
+        }
+
+        function updateBuildingCostUI() {
+            Object.entries(BUILDING_BASE_COSTS).forEach(([type, b]) => {
+                const card = document.getElementById(`card-${type}`);
+                if (!card) return;
+                const title = card.querySelector('b');
+                if (!title) return;
+                const cost = getConstructionCost(type);
+                title.innerHTML = `${b.icon} ${b.name} (-${formatConstructionCost(cost)})`;
+                card.title = `Đã có ${cost.count} ${b.name}. Công trình tiếp theo đắt hơn ${Math.round((cost.inflationMult - 1) * 100)}%.`;
+            });
+        }
+
         function handleCellClick(index, e) {
             let cell = gridData[index];
 
@@ -2281,24 +2364,14 @@
             if (cell.type === 'locked') { log("❌ Ô đất này đang bị khóa! Hãy chọn Mở Rộng (E)."); return; }
             if (cell.type !== 'empty') { log("⚠️ Ô này đã có công trình!"); return; }
 
-            let costMod = technologies.assembly_line.researched ? 0.8 : 1.0;
-            let costs = {
-                'farm': [Math.floor(20 * costMod), Math.floor(8 * costMod), 0, 0],
-                'mine': [Math.floor(25 * costMod), Math.floor(12 * costMod), 0, 0],
-                'lumber': [Math.floor(15 * costMod), 0, 0, 0],
-                'quarry': [Math.floor(30 * costMod), Math.floor(15 * costMod), 0, 0],
-                'warehouse': [Math.floor(25 * costMod), Math.floor(15 * costMod), 0, 0],
-                'hunter': [Math.floor(20 * costMod), Math.floor(10 * costMod), 0, 0],
-                'crystal': [Math.floor(50 * costMod), 0, Math.floor(30 * costMod), 0],
-                'academy': [Math.floor(40 * costMod), Math.floor(20 * costMod), Math.floor(20 * costMod), 0],
-                'house': [Math.floor(15 * costMod), Math.floor(10 * costMod), 0, 0],
-                'market': [Math.floor(45 * costMod), Math.floor(25 * costMod), 0, 0],
-                'tower': [Math.floor(35 * costMod), 0, Math.floor(20 * costMod), 0]
-            };
-
-            let [g, w, st, ir] = costs[selectedActionType];
-            if (stats.gold < g || stats.wood < w || stats.stone < (st || 0)) {
-                log(`❌ Không đủ nguyên liệu! Cần ${g}🪙, ${w}🪵, ${st || 0}🧱.`);
+            const buildCost = getConstructionCost(selectedActionType);
+            if (!buildCost) {
+                log('❌ Không xác định được chi phí công trình.');
+                return;
+            }
+            const { gold:g, wood:w, stone:st } = buildCost;
+            if (stats.gold < g || stats.wood < w || stats.stone < st) {
+                log(`❌ Không đủ nguyên liệu! Cần ${formatConstructionCost(buildCost)}. Đã có ${buildCost.count} công trình cùng loại.`);
                 return;
             }
 
@@ -2312,7 +2385,7 @@
             if (selectedActionType === 'farm') checkQuestProgress('farm', 1);
 
             showFloatingText(`-${g}🪙`, "#fbbf24", e);
-            log(`✅ Xây dựng thành công công trình mới!`);
+            log(`✅ Xây dựng thành công ${BUILDING_BASE_COSTS[selectedActionType]?.name || 'công trình'}! Chi phí: ${formatConstructionCost(buildCost)}.`);
             selectedActionType = null; renderGrid();
             playSound('build');
         }
