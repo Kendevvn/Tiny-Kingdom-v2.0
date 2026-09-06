@@ -38,54 +38,6 @@
             overflow-x: hidden;
         }
 
-
-        /* ===== RESPONSIVE / AUTO SCALE SYSTEM ===== */
-        :root { --cell-size: clamp(28px, 4.0vw, 44px); --cell-gap: clamp(2px, .35vw, 4px); }
-        html { width:100%; min-height:100%; -webkit-text-size-adjust:100%; }
-        body { width:100%; min-width:0; padding:clamp(5px,1vw,10px); }
-        .header-bar, .game-wrapper { width:min(1700px,100%); }
-        .game-wrapper { grid-template-columns:minmax(0,1fr) minmax(280px,410px); }
-        .grid { grid-template-columns:repeat(12,var(--cell-size)); grid-template-rows:repeat(12,var(--cell-size)); gap:var(--cell-gap); }
-        .cell { width:var(--cell-size); height:var(--cell-size); box-sizing:border-box; font-size:clamp(.72rem,1.55vw,1.1rem); }
-        .map-container { height:min(640px,72vh); min-height:clamp(280px,55vh,360px); }
-        button, input, select { font-size:max(16px, 0.85rem); }
-        @media (max-width:1100px) {
-            .game-wrapper { grid-template-columns:1fr; }
-            .right-sidebar { width:100%; min-width:0; }
-            .map-container { height:min(68vh,620px); }
-        }
-        @media (max-width:700px) {
-            :root { --cell-size:clamp(24px,6.8vw,38px); --cell-gap:clamp(1px,.7vw,3px); }
-            body { padding:5px; }
-            .header-bar { flex-wrap:wrap; gap:6px; }
-            h1 { font-size:1.05rem; letter-spacing:.8px; }
-            .system-btns { gap:4px; flex-wrap:wrap; }
-            .sys-btn { padding:7px 9px; font-size:.75rem; }
-            .map-container { padding:6px; height:min(58vh,520px); min-height:260px; border-width:1px; }
-            .map-viewport-hint { font-size:.56rem; max-width:72%; overflow:hidden; text-overflow:ellipsis; }
-            .map-zoom-controls button, .world-map-controls button { width:34px; height:34px; }
-            .world-chunk-wrap { height:min(58vh,520px); min-height:260px; padding:6px; }
-            .world-chunk { grid-template-columns:repeat(16,clamp(18px,5vw,26px)); grid-template-rows:repeat(16,clamp(18px,5vw,26px)); gap:2px; }
-            .world-cell { font-size:clamp(8px,2.2vw,12px); }
-            .world-cell.capital { font-size:clamp(10px,2.7vw,14px); }
-            .world-building-grid { grid-template-columns:1fr 1fr; }
-        }
-        @media (max-width:430px) {
-            :root { --cell-size:clamp(21px,7.1vw,30px); }
-            .map-container { height:52vh; min-height:235px; }
-            .map-viewport-hint { display:none; }
-            .resources-grid { grid-template-columns:1fr 1fr; }
-            .world-modal { padding:4px; }
-            .world-modal-box { width:99vw; max-height:98vh; border-radius:9px; }
-            .world-head { padding:8px 10px; }
-            .world-main { padding:6px; }
-        }
-        @media (orientation:landscape) and (max-height:600px) {
-            .map-container, .world-chunk-wrap { height:78vh; min-height:220px; }
-        }
-        /* Prevent browser gestures while manipulating the game map. */
-        #mainMapViewport, #worldMapViewport { touch-action:none; overscroll-behavior:contain; }
-
         .header-bar {
             display: flex;
             justify-content: space-between;
@@ -149,33 +101,20 @@
             padding: 12px;
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.7);
-            height: min(640px, 72vh);
-            min-height: 360px;
-            overflow: hidden;
+            max-height: 640px;
+            overflow: auto;
             display: flex;
             justify-content: center;
-            align-items: center;
             position: relative;
             width: 100%;
             box-sizing: border-box;
-            cursor: grab;
-            touch-action: none;
-            user-select: none;
         }
-        .map-container.is-panning { cursor: grabbing; }
-        .map-viewport-hint { position:absolute; top:10px; left:50%; transform:translateX(-50%); z-index:20; background:rgba(7,10,16,.82); border:1px solid #334155; color:#cbd5e1; border-radius:7px; padding:5px 9px; font-size:.65rem; pointer-events:none; opacity:.82; white-space:nowrap; }
-        .map-zoom-controls { position:absolute; right:10px; top:10px; z-index:20; display:flex; gap:4px; }
-        .map-zoom-controls button { width:30px; height:30px; border:1px solid #334155; background:rgba(15,23,42,.9); color:#fff; border-radius:6px; cursor:pointer; font-weight:900; }
-        .map-zoom-controls button:hover { border-color:#fbbf24; }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(12, 44px);
             grid-template-rows: repeat(12, 44px);
             gap: 4px;
-            transform-origin: center center;
-            will-change: transform;
-            flex: 0 0 auto;
         }
 
         .cell {
@@ -781,12 +720,8 @@
         .world-main { padding:12px; min-width:0; overflow:auto; }
         .world-info { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:10px; }
         .world-pill { background:#111827; border:1px solid #27324a; border-radius:6px; padding:5px 8px; font-size:.7rem; }
-        .world-chunk-wrap { overflow:hidden; background:#05070b; border:1px solid #27324a; border-radius:10px; padding:10px; height:min(66vh,680px); min-height:360px; position:relative; cursor:grab; touch-action:none; user-select:none; }
-        .world-chunk-wrap.is-panning { cursor:grabbing; }
-        .world-chunk { display:grid; grid-template-columns:repeat(16, 30px); grid-template-rows:repeat(16, 30px); gap:3px; width:max-content; height:max-content; transform-origin:0 0; will-change:transform; position:absolute; left:50%; top:50%; }
-        .world-map-hint { position:absolute; top:9px; left:50%; transform:translateX(-50%); z-index:20; background:rgba(7,10,16,.82); border:1px solid #334155; color:#cbd5e1; border-radius:7px; padding:5px 9px; font-size:.65rem; pointer-events:none; white-space:nowrap; }
-        .world-map-controls { position:absolute; right:9px; top:9px; z-index:20; display:flex; gap:4px; }
-        .world-map-controls button { width:30px; height:30px; border:1px solid #334155; background:rgba(15,23,42,.9); color:#fff; border-radius:6px; cursor:pointer; font-weight:900; }
+        .world-chunk-wrap { overflow:auto; background:#05070b; border:1px solid #27324a; border-radius:10px; padding:10px; }
+        .world-chunk { display:grid; grid-template-columns:repeat(16, minmax(22px,1fr)); gap:3px; min-width:410px; aspect-ratio:1/1; }
         .world-cell { position:relative; border:1px solid #1f2937; border-radius:3px; min-width:0; min-height:0; background:#111827; color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; user-select:none; }
         .world-cell.enemy { background:#25151a; }
         .world-cell.player { background:#10251d; border-color:#285c47; }
@@ -873,9 +808,7 @@
         
         <!-- TRUNG TÂM -->
         <div class="center-stage" id="centerStage">
-            <div class="map-container" id="mainMapViewport">
-                <div class="map-viewport-hint">🖱️ Kéo chuột trái để di chuyển · 🖱️ Lăn để zoom</div>
-                <div class="map-zoom-controls"><button onclick="adjustMainMapZoom(-1);event.stopPropagation()">−</button><button onclick="resetMainMapView();event.stopPropagation()">⟳</button><button onclick="adjustMainMapZoom(1);event.stopPropagation()">+</button></div>
+            <div class="map-container">
                 <div class="grid" id="gameGrid"></div>
             </div>
 
@@ -1327,11 +1260,7 @@
                 <div class="world-factions" id="worldFactionList"></div>
                 <div class="world-main">
                     <div class="world-info" id="worldInfo"></div>
-                    <div class="world-chunk-wrap" id="worldMapViewport">
-                        <div class="world-map-hint">🖱️ Kéo chuột trái để xem xung quanh · 🖱️ Lăn để thu phóng</div>
-                        <div class="world-map-controls"><button onclick="adjustWorldMapZoom(-1);event.stopPropagation()">−</button><button onclick="resetWorldMapView();event.stopPropagation()">⟳</button><button onclick="adjustWorldMapZoom(1);event.stopPropagation()">+</button></div>
-                        <div class="world-chunk" id="worldChunkGrid"></div>
-                    </div>
+                    <div class="world-chunk-wrap"><div class="world-chunk" id="worldChunkGrid"></div></div>
                     <div class="world-actions" id="worldActions"></div>
                 </div>
             </div>
@@ -1538,7 +1467,7 @@
             if (!worldMapState.stationedArmy) worldMapState.stationedArmy={swords:0,archers:0,cavalry:0,mercs:0}; Object.values(worldMapState.factions).forEach(st=>st.cells.forEach(c=>{ if(c.building===undefined)c.building=null; if(!c.level)c.level=1; }));
         }
 
-        function openWorldMap() { ensureWorldMapState(); document.getElementById('worldMapModal').style.display='flex'; renderWorldMap(); initMapCameras(); playSound('click'); }
+        function openWorldMap() { ensureWorldMapState(); document.getElementById('worldMapModal').style.display='flex'; renderWorldMap(); playSound('click'); }
         function closeWorldMap() { document.getElementById('worldMapModal').style.display='none'; worldMapState.selectedCell=null; playSound('click'); }
 
         function worldCellIsFrontier(factionId, index) {
@@ -1556,80 +1485,6 @@
           ensure4XState(); return (empireSystem.discovered[fid]||[]).includes(index);
         }
         function worldResourceIcon(cell){return cell.resource==='iron'?'⛓️':cell.resource==='crystal'?'🔮':cell.resource==='gold'?'💰':cell.resource==='food'?'🌾':'';}
-
-        // ===== MAP CAMERA: KÉO CHUỘT + ZOOM BẰNG CON LĂN =====
-        const mainMapCamera = { zoom: 1, x: 0, y: 0, dragging: false, moved: false, sx: 0, sy: 0, ox: 0, oy: 0 };
-        const worldMapCamera = { zoom: 1, x: 0, y: 0, dragging: false, moved: false, sx: 0, sy: 0, ox: 0, oy: 0 };
-
-        function clampMapZoom(z) { return Math.max(0.45, Math.min(3.5, z)); }
-        function applyMainMapCamera() {
-            const el=document.getElementById('gameGrid'); if(!el) return;
-            el.style.transform=`translate(${mainMapCamera.x}px,${mainMapCamera.y}px) scale(${mainMapCamera.zoom})`;
-        }
-        function applyWorldMapCamera() {
-            const el=document.getElementById('worldChunkGrid'); if(!el) return;
-            el.style.transform=`translate(calc(-50% + ${worldMapCamera.x}px), calc(-50% + ${worldMapCamera.y}px)) scale(${worldMapCamera.zoom})`;
-        }
-        function adjustMainMapZoom(dir) { mainMapCamera.zoom=clampMapZoom(mainMapCamera.zoom*(dir>0?1.15:1/1.15)); applyMainMapCamera(); }
-        function resetMainMapView() { mainMapCamera.zoom=1; mainMapCamera.x=0; mainMapCamera.y=0; applyMainMapCamera(); }
-        function adjustWorldMapZoom(dir) { worldMapCamera.zoom=clampMapZoom(worldMapCamera.zoom*(dir>0?1.15:1/1.15)); applyWorldMapCamera(); }
-        function resetWorldMapView() { worldMapCamera.zoom=1; worldMapCamera.x=0; worldMapCamera.y=0; applyWorldMapCamera(); }
-
-        function setupMapCamera(viewId, mapId, camera, apply, zoomStep) {
-            const viewport=document.getElementById(viewId); if(!viewport || viewport.dataset.cameraReady==='1') return;
-            viewport.dataset.cameraReady='1';
-            const isControl=(e)=>!!e.target.closest('.map-zoom-controls,.world-map-controls,button,input,select,textarea,a');
-            viewport.addEventListener('pointerdown', e=>{
-                if(e.button!==0 || isControl(e)) return;
-                camera.dragging=true; camera.moved=false; camera.pointerId=e.pointerId;
-                camera.sx=e.clientX; camera.sy=e.clientY; camera.ox=camera.x; camera.oy=camera.y;
-                viewport.classList.add('is-panning');
-                try { viewport.setPointerCapture(e.pointerId); } catch(_) {}
-                e.preventDefault();
-            });
-            viewport.addEventListener('pointermove', e=>{
-                if(!camera.dragging || (camera.pointerId!==undefined && e.pointerId!==camera.pointerId)) return;
-                const dx=e.clientX-camera.sx, dy=e.clientY-camera.sy;
-                if(Math.abs(dx)+Math.abs(dy)>5) camera.moved=true;
-                camera.x=camera.ox+dx; camera.y=camera.oy+dy; apply();
-                if(camera.moved) e.preventDefault();
-            });
-            const endPointer=e=>{
-                if(!camera.dragging) return;
-                if(camera.pointerId!==undefined && e.pointerId!==undefined && e.pointerId!==camera.pointerId) return;
-                camera.dragging=false; viewport.classList.remove('is-panning');
-                try { viewport.releasePointerCapture(e.pointerId); } catch(_) {}
-                if(camera.moved){ viewport.dataset.suppressClick='1'; setTimeout(()=>delete viewport.dataset.suppressClick,80); }
-            };
-            viewport.addEventListener('pointerup',endPointer);
-            viewport.addEventListener('pointercancel',endPointer);
-            viewport.addEventListener('click', e=>{ if(viewport.dataset.suppressClick==='1'){ e.preventDefault(); e.stopPropagation(); delete viewport.dataset.suppressClick; } }, true);
-            viewport.addEventListener('wheel', e=>{
-                if(isControl(e)) return;
-                e.preventDefault();
-                const rect=viewport.getBoundingClientRect();
-                const mx=e.clientX-rect.left-rect.width/2, my=e.clientY-rect.top-rect.height/2;
-                const old=camera.zoom, next=clampMapZoom(old*(e.deltaY<0?zoomStep:1/zoomStep));
-                const ratio=next/old;
-                camera.x=mx-(mx-camera.x)*ratio; camera.y=my-(my-camera.y)*ratio; camera.zoom=next; apply();
-            },{passive:false});
-            viewport.addEventListener('contextmenu',e=>e.preventDefault());
-        }
-
-
-        function refreshResponsiveScale(){
-            document.documentElement.style.setProperty('--viewport-width', window.innerWidth+'px');
-            if(!mainMapCamera.dragging && mainMapCamera.x===0 && mainMapCamera.y===0) applyMainMapCamera();
-            if(!worldMapCamera.dragging && worldMapCamera.x===0 && worldMapCamera.y===0) applyWorldMapCamera();
-        }
-        window.addEventListener('resize', refreshResponsiveScale, {passive:true});
-        window.addEventListener('orientationchange', ()=>setTimeout(refreshResponsiveScale,120), {passive:true});
-        function initMapCameras(){
-            setupMapCamera('mainMapViewport','gameGrid',mainMapCamera,applyMainMapCamera,1.12);
-            setupMapCamera('worldMapViewport','worldChunkGrid',worldMapCamera,applyWorldMapCamera,1.12);
-            applyMainMapCamera(); applyWorldMapCamera();
-        }
-        if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initMapCameras); else initMapCameras();
 
         function renderWorldMap() {
             ensureWorldMapState();
