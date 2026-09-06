@@ -38,6 +38,24 @@
             overflow-x: hidden;
         }
 
+        /* HỆ THỐNG ĐẶT TÊN VƯƠNG QUỐC & NGƯỜI CHỈ VÌ */
+        #namingModal {
+            position: fixed; inset: 0; background: rgba(0,0,0,.88); z-index: 9999;
+            display: none; align-items: center; justify-content: center; padding: 20px;
+        }
+        .naming-box {
+            width: min(520px, 100%); background: linear-gradient(145deg,#10101a,#181825);
+            border: 1px solid var(--accent-gold); border-radius: 14px; padding: 28px;
+            box-shadow: 0 20px 70px rgba(0,0,0,.7); text-align: center;
+        }
+        .naming-box h2 { margin: 0 0 8px; color: var(--accent-gold); }
+        .naming-box p { color: #aab1c5; margin: 0 0 20px; }
+        .name-field { text-align: left; margin: 14px 0; }
+        .name-field label { display:block; font-weight:700; margin-bottom:6px; color:#e5e7eb; }
+        .name-field input { width:100%; box-sizing:border-box; background:#08080d; color:#fff; border:1px solid #35354a; border-radius:8px; padding:12px; font-size:1rem; outline:none; }
+        .name-field input:focus { border-color:var(--accent-gold); box-shadow:0 0 0 2px rgba(251,191,36,.12); }
+        #kingdomDisplay { color:var(--accent-gold); font-size:.82rem; margin-top:2px; }
+
         .header-bar {
             display: flex;
             justify-content: space-between;
@@ -54,6 +72,21 @@
             letter-spacing: 1.5px;
             text-shadow: 0 2px 6px rgba(0,0,0,0.8);
         }
+
+        .realm-identity {
+            display:flex; align-items:center; gap:12px; margin-top:5px; padding:7px 12px;
+            width:fit-content; max-width:min(620px,100%); cursor:pointer;
+            background:linear-gradient(135deg,rgba(251,191,36,.10),rgba(56,189,248,.06));
+            border:1px solid rgba(251,191,36,.28); border-radius:9px;
+            box-shadow:inset 0 0 18px rgba(251,191,36,.035); transition:.2s ease;
+        }
+        .realm-identity:hover { border-color:var(--accent-gold); transform:translateY(-1px); }
+        .realm-crest { font-size:1.55rem; line-height:1; }
+        .realm-identity-info { min-width:0; }
+        .realm-name { color:var(--accent-gold); font-weight:800; font-size:1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .realm-ruler { color:#b9c2d4; font-size:.76rem; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .realm-edit { color:#8293a8; font-size:.72rem; margin-left:auto; white-space:nowrap; }
+        @media (max-width:700px) { .header-bar{align-items:flex-start;gap:8px}.realm-identity{max-width:100%}.realm-edit{display:none} }
 
         .system-btns {
             display: flex;
@@ -795,7 +828,17 @@
 <body>
 
     <div class="header-bar">
-        <h1>👑 Tiny Kingdom: Infinite Empire Ultimate Tech Edition</h1>
+        <div>
+            <h1>👑 Tiny Kingdom: Infinite Empire Ultimate Tech Edition</h1>
+            <div class="realm-identity" onclick="editKingdomNames()" title="Bấm để đổi tên vương quốc hoặc người trị vì">
+                <div class="realm-crest">🏰</div>
+                <div class="realm-identity-info">
+                    <div class="realm-name" id="kingdomNameDisplay">Đế Quốc Vô Danh</div>
+                    <div class="realm-ruler">👑 Người trị vì: <b id="rulerNameDisplay">Tân Vương</b></div>
+                </div>
+                <div class="realm-edit">✏️ Đổi tên</div>
+            </div>
+        </div>
         <div class="system-btns">
             <button class="sys-btn" onclick="newGameConfirm()">🔄 New Game</button>
             <button class="sys-btn" onclick="saveGame()">💾 Save</button>
@@ -1137,6 +1180,8 @@
                     <div class="stat-row" style="color: var(--accent-hero);"><span>⭐ Tướng:</span> <span id="heroStatus">Chưa có</span></div>
                     <div class="stat-row" style="color: var(--accent-wonder);"><span>🏛️ Kỳ quan:</span> <span id="wonderStatus">Chưa xây Nhà Chính</span></div>
                     <div class="stat-row" style="color: #38bdf8;"><span>⏳ Lượt:</span> <span id="turn">1</span></div>
+                    <div class="stat-row" style="color: #fbbf24;"><span>⚡ Hành động:</span> <span><b id="actionsUsed">0</b>/<span id="actionsMax">5</span></span></div>
+                    <div class="stat-row" style="color: #fb7185;"><span>🔥 Stamina quân:</span> <span><b id="armyStamina">100</b>/<span id="armyStaminaMax">100</span></span></div>
                 </div>
             </div>
 
@@ -1200,6 +1245,23 @@
             <div class="turn-log-content" id="turnLogModalContent">
                 Đang tải tổng kết...
             </div>
+        </div>
+    </div>
+
+    <!-- CỬA SỔ ĐẶT TÊN VƯƠNG QUỐC & NGƯỜI TRỊ VÌ -->
+    <div id="namingModal">
+        <div class="naming-box">
+            <h2>👑 Khai Sinh Vương Quốc</h2>
+            <p>Hãy đặt tên cho vương quốc và người đang trị vì trước khi bắt đầu cuộc chinh phục.</p>
+            <div class="name-field">
+                <label for="kingdomNameInput">🏰 Tên vương quốc</label>
+                <input id="kingdomNameInput" maxlength="32" placeholder="Ví dụ: Đại Việt" autocomplete="off">
+            </div>
+            <div class="name-field">
+                <label for="rulerNameInput">👑 Tên người trị vì</label>
+                <input id="rulerNameInput" maxlength="28" placeholder="Ví dụ: Vua Lê Thái Tổ" autocomplete="off">
+            </div>
+            <button class="sys-btn" style="margin-top:10px;background:var(--accent-gold);color:#000;padding:10px 24px;" onclick="confirmKingdomNames()">Bắt đầu trị vì ➜</button>
         </div>
     </div>
 
@@ -1359,7 +1421,7 @@
             pop: 12, maxPop: 20, defense: 20,
             swords: 2, archers: 2, cavalry: 2, mercs: 0,
             hasHero: false, heroSkillActive: false,
-            turn: 1, wondersList: [], festivalTurnsLeft: 0, alliedTribes: false,
+            turn: 1, actionsUsed: 0, armyStamina: 100, kingdomName: "Đế Quốc Vô Danh", rulerName: "Tân Vương", wondersList: [], festivalTurnsLeft: 0, alliedTribes: false,
             townHallLevel: 0
         };
 
@@ -1570,6 +1632,7 @@
             ensureWorldMapState(); const state=worldMapState.factions.player, cell=state.cells[index]; const b=WORLD_BUILDINGS[type];
             if(!cell || cell.owner!=='player' || cell.building){log('❌ Ô này không còn trống hoặc không thuộc lãnh thổ của bạn.');return;}
             const cost=worldBuildingCost(type,1); if(stats.gold<cost.gold||stats.wood<cost.wood||stats.stone<cost.stone){log(`❌ Không đủ tài nguyên. Cần ${cost.gold}🪙, ${cost.wood}🪵, ${cost.stone}🧱.`);return;}
+            if(!spendAction('Xây công trình World Map')) return;
             stats.gold-=cost.gold; stats.wood-=cost.wood; stats.stone-=cost.stone; cell.building=type; cell.level=1;
             if(type==='tower') cell.defense=Math.min(100,cell.defense+15); if(type==='house') stats.maxPop+=6;
             log(`🏗️ Xây ${b.name} Lv.1 tại World Map thành công! Chi phí: ${cost.gold}🪙 ${cost.wood}🪵 ${cost.stone}🧱.`);
@@ -1579,12 +1642,13 @@
             const cell=worldMapState.factions.player.cells[index]; if(!cell?.building)return; if((cell.level||1)>=5){log('⚠️ Công trình World Map đã đạt Lv.5.');return;}
             const next=(cell.level||1)+1, cost=worldBuildingCost(cell.building,next), b=WORLD_BUILDINGS[cell.building];
             if(stats.gold<cost.gold||stats.wood<cost.wood||stats.stone<cost.stone){log(`❌ Nâng cấp cần ${cost.gold}🪙, ${cost.wood}🪵, ${cost.stone}🧱.`);return;}
+            if(!spendAction('Nâng cấp World Map')) return;
             stats.gold-=cost.gold;stats.wood-=cost.wood;stats.stone-=cost.stone;cell.level=next;
             if(cell.building==='tower')cell.defense=Math.min(100,cell.defense+10); if(cell.building==='house')stats.maxPop+=4;
             log(`⬆️ ${b.name} tại World Map lên Lv.${next}.`);updateUI();renderWorldMap();playSound('build');
         }
         function removeWorldBuilding(index){
-            const cell=worldMapState.factions.player.cells[index]; if(!cell?.building)return; const type=cell.building; if(type==='tower')cell.defense=Math.max(1,cell.defense-10*(cell.level||1)); if(type==='house')stats.maxPop=Math.max(20,stats.maxPop-6-4*Math.max(0,(cell.level||1)-1));
+            const cell=worldMapState.factions.player.cells[index]; if(!cell?.building)return; const type=cell.building; if(!spendAction('Phá công trình World Map')) return; if(type==='tower')cell.defense=Math.max(1,cell.defense-10*(cell.level||1)); if(type==='house')stats.maxPop=Math.max(20,stats.maxPop-6-4*Math.max(0,(cell.level||1)-1));
             log(`🧹 Đã phá ${getWorldBuildingName(type)} tại World Map.`);cell.building=null;cell.level=1;updateUI();renderWorldMap();playSound('click');
         }
         function processWorldBuildingsTurn(details){
@@ -1599,11 +1663,12 @@
             const fid=worldMapState.selectedFaction, state=worldMapState.factions[fid], cell=state.cells[index]; if(fid==='player'||cell.owner==='player'||cell.capital)return;
             if(state.relation<55){log('❌ Quan hệ quá thấp để mua lại lãnh thổ. Hãy ngoại giao trước.');return;}
             const cost=60+cell.defense*3; if(stats.gold<cost){log(`❌ Cần ${cost}🪙 để mua lại ô đất.`);return;}
+            if(!spendAction('Mua lãnh thổ')) return;
             stats.gold-=cost; cell.owner='player'; cell.defense=Math.max(5,Math.floor(cell.defense*.6)); state.relation=Math.max(0,state.relation-10); state.conquered++; log(`💰 Đã mua lại ô (${index%16+1},${Math.floor(index/16)+1}) từ ${WORLD_FACTIONS[fid].name} với giá ${cost}🪙.`); updateUI(); renderWorldMap(); playSound('quest');
         }
 
         function bribeWorldFaction(fid){
-            const state=worldMapState.factions[fid]; if(fid==='player')return; const cost=80; if(stats.gold<cost){log('❌ Cần 80🪙 để tăng quan hệ ngoại giao.');return;} stats.gold-=cost; state.relation=Math.min(100,state.relation+10); log(`🤝 Gửi 80🪙 ngoại giao tới ${WORLD_FACTIONS[fid].name}: +10 quan hệ.`); updateUI(); renderWorldMap(); playSound('click'); }
+            const state=worldMapState.factions[fid]; if(fid==='player')return; const cost=80; if(stats.gold<cost){log('❌ Cần 80🪙 để tăng quan hệ ngoại giao.');return;} if(!spendAction('Ngoại giao World Map')) return; stats.gold-=cost; state.relation=Math.min(100,state.relation+10); log(`🤝 Gửi 80🪙 ngoại giao tới ${WORLD_FACTIONS[fid].name}: +10 quan hệ.`); updateUI(); renderWorldMap(); playSound('click'); }
 
         function prepareWorldConquest(index){ worldMapState.selectedCell=index; renderWorldMap(); const host=document.getElementById('worldConquestPanel'); if(host)host.scrollIntoView({block:'nearest'}); }
 
@@ -1612,23 +1677,27 @@
             const read=n=>Math.max(0,Math.min(Number(document.getElementById(n)?.value||0), stats[n==='atkS'?'swords':n==='atkA'?'archers':n==='atkC'?'cavalry':'mercs']));
             const s=read('atkS'),a=read('atkA'),c=read('atkC'),m=read('atkM'), total=s+a+c+m; if(!total){log('❌ Phải điều ít nhất 1 đơn vị.');return;}
             const terrainBonus={forest:{archers:1.25,def:1.10},mountain:{archers:1.10,cavalry:0.75,def:1.35},plains:{cavalry:1.25,def:0.95},grass:{def:1.0},desert:{cavalry:0.85,archers:1.05,def:1.10},coast:{archers:1.15,cavalry:0.90,def:1.05}}; const tb=terrainBonus[cell.terrain]||terrainBonus.grass; let power=s*6*(tb.archers||1)+a*5*(tb.archers||1)+c*9*(tb.cavalry||1)+m*13+(stats.hasHero?12:0); const gen=empireSystem.generals[empireSystem.selectedGeneral]||empireSystem.generals.roland; if(gen.bonus==='archer')power+=a*3; if(gen.bonus==='mountain'&&cell.terrain==='mountain')power+=20; if(gen.bonus==='economy')power+=5; power*=technologies.arcane_gate?.researched?1.25:technologies.teleportation?.researched?1.10:1; const defense=(cell.defense+Math.floor(WORLD_FACTIONS[fid].aiPower*.6))*(tb.def||1);
+            if(!spendAction('Xâm chiếm lãnh thổ')) return;
+            const conquestStamina=militaryStaminaCost(total,14);
+            if(!spendMilitaryStamina(conquestStamina,'Xâm chiếm lãnh thổ')) { stats.actionsUsed=Math.max(0,stats.actionsUsed-1); updateActionCounter(); return; }
             stats.swords-=s;stats.archers-=a;stats.cavalry-=c;stats.mercs-=m;
             const win=power>=defense;
             if(win){
                 const loss=Math.min(total,Math.max(0,Math.floor(defense/18)+Math.floor(Math.random()*2))); const ls=Math.min(s,Math.floor(loss*.45)),la=Math.min(a,Math.floor((loss-ls)*.4)),lc=Math.min(c,Math.max(0,loss-ls-la)),lm=Math.min(m,Math.max(0,loss-ls-la-lc));
                 const survivors={swords:s-ls,archers:a-la,cavalry:c-lc,mercs:m-lm}; Object.assign(worldMapState.stationedArmy,{swords:worldMapState.stationedArmy.swords+survivors.swords,archers:worldMapState.stationedArmy.archers+survivors.archers,cavalry:worldMapState.stationedArmy.cavalry+survivors.cavalry,mercs:worldMapState.stationedArmy.mercs+survivors.mercs});
-                cell.owner='player'; cell.defense=Math.max(6,Math.floor(cell.defense*.55)); state.conquered++; if(cell.capital){ state.relation=0; stats.gold+=250; stats.researchPoints+=80; log(`🏰 THỦ ĐÔ ${WORLD_FACTIONS[fid].name} SỤP ĐỔ! +250🪙 +80🔬.`); } state.relation=Math.max(0,state.relation-8); achievements.ach8=true; log(`🚩 Chiến thắng! Đã chiếm ô ${index%16+1},${Math.floor(index/16)+1} của ${WORLD_FACTIONS[fid].name}. Tổn thất: ${loss} quân.`); showFloatingText('🚩 CHIẾM ĐẤT!','#fbbf24');
+                cell.owner='player'; cell.defense=Math.max(6,Math.floor(cell.defense*.55)); state.conquered++; if(cell.capital){ state.relation=0; stats.gold+=250; stats.researchPoints+=80; log(`🏰 THỦ ĐÔ ${WORLD_FACTIONS[fid].name} SỤP ĐỔ! +250🪙 +80🔬.`); } state.relation=Math.max(0,state.relation-8); achievements.ach8=true; log(`🚩 Chiến thắng! Đã chiếm ô ${index%16+1},${Math.floor(index/16)+1} của ${WORLD_FACTIONS[fid].name}. Tổn thất: ${loss} quân · 🔥 Stamina -${conquestStamina}.`); showFloatingText('🚩 CHIẾM ĐẤT!','#fbbf24');
             }else{
                 const loss=Math.min(total,Math.max(1,Math.floor(total*.65))); const ls=Math.min(s,Math.ceil(loss*.45)),la=Math.min(a,Math.ceil(loss*.25)),lc=Math.min(c,Math.ceil(loss*.2)),lm=Math.min(m,Math.max(0,loss-ls-la-lc));
                 stats.swords += s-ls; stats.archers += a-la; stats.cavalry += c-lc; stats.mercs += m-lm;
-                log(`💥 Thất bại! Quân ${WORLD_FACTIONS[fid].name} giữ được ô đất. Bạn mất ${ls+la+lc+lm} quân.`);
+                log(`💥 Thất bại! Quân ${WORLD_FACTIONS[fid].name} giữ được ô đất. Bạn mất ${ls+la+lc+lm} quân · 🔥 Stamina -${conquestStamina}.`);
             }
             checkAchievements(); updateUI(); renderWorldMap(); playSound('battle');
         }
 
         function recallWorldArmy(index){
             const sa=worldMapState.stationedArmy; const s=Math.min(Number(document.getElementById('recallS')?.value||0),sa.swords),a=Math.min(Number(document.getElementById('recallA')?.value||0),sa.archers),c=Math.min(Number(document.getElementById('recallC')?.value||0),sa.cavalry),m=Math.min(Number(document.getElementById('recallM')?.value||0),sa.mercs);
-            sa.swords-=s;sa.archers-=a;sa.cavalry-=c;sa.mercs-=m;stats.swords+=s;stats.archers+=a;stats.cavalry+=c;stats.mercs+=m; log(`↩️ Rút quân về: +${s}⚔️ +${a}🏹 +${c}🐎 +${m}🗡️.`); updateUI(); renderWorldMap(); playSound('click');
+            if(!spendAction('Rút quân World Map')) return;
+             sa.swords-=s;sa.archers-=a;sa.cavalry-=c;sa.mercs-=m;stats.swords+=s;stats.archers+=a;stats.cavalry+=c;stats.mercs+=m; log(`↩️ Rút quân về: +${s}⚔️ +${a}🏹 +${c}🐎 +${m}🗡️.`); updateUI(); renderWorldMap(); playSound('click');
         }
 
         function processWorldMapTurn(details){
@@ -1727,6 +1796,10 @@
             document.getElementById('turnLogModal').style.display = 'none';
             playSound('click');
         }
+
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('namingModal')?.style.display === 'flex' && e.key === 'Enter') confirmKingdomNames();
+        });
 
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playSound(type) {
@@ -1828,6 +1901,7 @@
             if (confirm("Bắt đầu ván chơi mới? Mọi tiến trình chưa lưu sẽ mất.")) {
                 resetGameData();
                 renderGrid();
+                showKingdomNaming(true);
                 
                 document.getElementById('storyModal1').style.display = 'flex';
                 document.getElementById('storyModal2').style.display = 'none';
@@ -1842,6 +1916,7 @@
             document.getElementById('gameOverModal').style.display = 'none';
             resetGameData();
             renderGrid();
+            showKingdomNaming(true);
             
             document.getElementById('storyModal1').style.display = 'flex';
             document.getElementById('storyModal2').style.display = 'none';
@@ -1857,7 +1932,7 @@
                 pop: 12, maxPop: 20, defense: 20,
                 swords: 2, archers: 2, cavalry: 2, mercs: 0,
                 hasHero: false, heroSkillActive: false,
-                turn: 1, wondersList: [], festivalTurnsLeft: 0, alliedTribes: false,
+                turn: 1, actionsUsed: 0, armyStamina: 100, kingdomName: "Đế Quốc Vô Danh", rulerName: "Tân Vương", wondersList: [], festivalTurnsLeft: 0, alliedTribes: false,
                 townHallLevel: 0
             };
             for (let k in technologies) { technologies[k].researched = false; }
@@ -1939,6 +2014,10 @@
             try {
                 const parsed = JSON.parse(raw);
                 stats = parsed.stats;
+                if (!stats.kingdomName) stats.kingdomName = "Đế Quốc Vô Danh";
+                if (!stats.rulerName) stats.rulerName = "Tân Vương";
+                ensureActionState();
+                ensureArmyStamina();
                 if (typeof stats.townHallLevel !== 'number') stats.townHallLevel = 0;
                 if (!gridDataHasTownHall(parsed.gridData)) stats.townHallLevel = 0;
                 if (parsed.technologies) technologies = {...technologies, ...parsed.technologies};
@@ -2040,7 +2119,40 @@
             }
         }
 
+        function sanitizeName(value, fallback) {
+            return String(value || '').trim().replace(/[<>]/g, '').slice(0, 32) || fallback;
+        }
+
+        function showKingdomNaming(force=false) {
+            const modal = document.getElementById('namingModal');
+            if (!modal) return;
+            if (!force && stats.kingdomName && stats.rulerName && stats.kingdomName !== 'Đế Quốc Vô Danh' && stats.rulerName !== 'Tân Vương') return;
+            document.getElementById('kingdomNameInput').value = stats.kingdomName === 'Đế Quốc Vô Danh' ? '' : (stats.kingdomName || '');
+            document.getElementById('rulerNameInput').value = stats.rulerName === 'Tân Vương' ? '' : (stats.rulerName || '');
+            modal.style.display = 'flex';
+            setTimeout(() => document.getElementById('kingdomNameInput')?.focus(), 50);
+        }
+
+        function confirmKingdomNames() {
+            const kingdom = sanitizeName(document.getElementById('kingdomNameInput')?.value, 'Đế Quốc Vô Danh');
+            const ruler = sanitizeName(document.getElementById('rulerNameInput')?.value, 'Tân Vương');
+            stats.kingdomName = kingdom;
+            stats.rulerName = ruler;
+            document.getElementById('namingModal').style.display = 'none';
+            updateUI();
+            log(`👑 ${ruler} chính thức trị vì ${kingdom}.`);
+            playSound('click');
+        }
+
+        function editKingdomNames() {
+            document.getElementById('kingdomNameInput').value = stats.kingdomName || '';
+            document.getElementById('rulerNameInput').value = stats.rulerName || '';
+            document.getElementById('namingModal').style.display = 'flex';
+        }
+
         function updateUI() {
+            document.getElementById('kingdomNameDisplay').innerText = stats.kingdomName || 'Đế Quốc Vô Danh';
+            document.getElementById('rulerNameDisplay').innerText = stats.rulerName || 'Tân Vương';
             updateBuildingCostUI();
             document.getElementById('maxStorage').innerText = getMaxStorage();
             document.getElementById('gold').innerText = stats.gold;
@@ -2073,6 +2185,8 @@
             let wText = stats.wondersList.length > 0 ? stats.wondersList.map(w => wonderNames[w] || w).join(', ') : (gridDataHasTownHall() ? `Nhà Chính (Lv.${stats.townHallLevel})` : 'Chưa xây Nhà Chính');
             document.getElementById('wonderStatus').innerText = wText;
             document.getElementById('turn').innerText = stats.turn;
+            updateActionCounter();
+            updateArmyStaminaUI();
 
             for (let techKey in technologies) {
                 let card = document.getElementById('tech-' + techKey);
@@ -2281,6 +2395,7 @@
 
                 if (cell.nature === 'monster') {
                     if (stats.alliedTribes) {
+                        if(!spendAction('Mở rộng đất')) return;
                         stats.gold -= expandGold; stats.wood -= expandWood;
                         cell.type = 'empty'; cell.nature = 'normal';
                         log("🤝 Nhờ chính sách hối lộ bộ lạc, bạn chiếm ô đất này hòa bình mà không cần giao chiến!");
@@ -2297,6 +2412,7 @@
                         return;
                     }
 
+                    if(!spendAction('Chinh phục vùng đất')) return;
                     stats.gold -= 30; stats.wood -= 15;
                     cell.type = 'empty';
                     cell.nature = 'normal';
@@ -2310,6 +2426,7 @@
                 }
 
                 if (cell.nature === 'anomaly') {
+                    if(!spendAction('Khai phá dị tượng')) return;
                     stats.gold -= 30; stats.wood -= 15;
                     cell.type = 'empty';
                     cell.nature = 'normal';
@@ -2325,6 +2442,7 @@
                 // FIX: Đổi ô đất từ `locked` -> `empty` sau khi khai hoang.
                 // Trước đây nhánh đất thường chỉ trừ tài nguyên nhưng không đổi
                 // cell.type, khiến ô vẫn bị khóa và không thể xây công trình.
+                if(!spendAction('Mở rộng đất')) return;
                 stats.gold -= 30;
                 stats.wood -= 15;
                 cell.type = 'empty';
@@ -2351,6 +2469,7 @@
                     log(`❌ Xây Nhà Chính cần ${costGold}🪙, ${costWood}🪵, ${costStone}🧱.`);
                     return;
                 }
+                if(!spendAction('Xây Nhà Chính')) return;
                 stats.gold -= costGold;
                 stats.wood -= costWood;
                 stats.stone -= costStone;
@@ -2387,6 +2506,7 @@
                 return;
             }
 
+            if(!spendAction('Xây công trình')) return;
             stats.gold -= g; stats.wood -= w; if (st) stats.stone -= st;
             cell.type = selectedActionType;
             cell.level = 1;
@@ -2483,6 +2603,7 @@
                     alert(`❌ Không đủ nguyên liệu! Nhà Chính Lv.${nextLevel} cần ${c.gold} Vàng, ${c.wood} Gỗ và ${c.stone} Đá.`);
                     return;
                 }
+                if(!spendAction('Nâng cấp Nhà Chính')) return;
                 stats.gold -= c.gold;
                 stats.wood -= c.wood;
                 stats.stone -= c.stone;
@@ -2510,6 +2631,7 @@
                 return;
             }
 
+            if(!spendAction('Nâng cấp công trình')) return;
             stats.gold -= costGold;
             stats.wood -= costWood;
             cell.level = lvl + 1;
@@ -2540,6 +2662,7 @@
             let refundGold = Math.floor((baseG * lvl) / 2);
             let refundWood = Math.floor((baseW * lvl) / 2);
 
+            if(!spendAction('Phá công trình')) return;
             addResource('gold', refundGold);
             addResource('wood', refundWood);
 
@@ -2585,23 +2708,23 @@
           DIPLO_REL.forEach(fid=>{if(!empireSystem.diplomacy[fid]) empireSystem.diplomacy[fid]={status:'neutral',favor:0,war:false};});
           empireSystem.endgame=empireSystem.endgame||{active:false,progress:0,bossHP:0,defeated:false};
         }
-        function empireFestival(){if(stats.gold<80){log('❌ Cần 80🪙.');return;}stats.gold-=80;empireSystem.happiness=Math.min(100,empireSystem.happiness+18);stats.festivalTurnsLeft=Math.max(stats.festivalTurnsLeft,2);log('🎉 Đại lễ hội: +18 Hạnh Phúc.');updateUI();}
-        function empireLowerTax(){if(stats.gold<25){log('❌ Cần 25🪙.');return;}stats.gold-=25;empireSystem.taxReliefTurns=3;empireSystem.happiness=Math.min(100,empireSystem.happiness+12);log('💝 Giảm thuế trong 3 lượt.');updateUI();}
-        function empireRaiseTax(){stats.gold+=35;empireSystem.happiness=Math.max(0,empireSystem.happiness-10);log('💰 Tăng thuế: +35🪙 nhưng dân chúng bất mãn.');updateUI();}
-        function setGeneral(id){if(!empireSystem.generals[id])return;empireSystem.selectedGeneral=id;log(`⚔️ Đại tướng ${empireSystem.generals[id].name} được bổ nhiệm.`);updateUI();}
+        function empireFestival(){if(stats.gold<80){log('❌ Cần 80🪙.');return;}if(!spendAction('Đại Lễ Hội'))return;stats.gold-=80;empireSystem.happiness=Math.min(100,empireSystem.happiness+18);stats.festivalTurnsLeft=Math.max(stats.festivalTurnsLeft,2);log('🎉 Đại lễ hội: +18 Hạnh Phúc.');updateUI();}
+        function empireLowerTax(){if(stats.gold<25){log('❌ Cần 25🪙.');return;}if(!spendAction('Giảm thuế'))return;stats.gold-=25;empireSystem.taxReliefTurns=3;empireSystem.happiness=Math.min(100,empireSystem.happiness+12);log('💝 Giảm thuế trong 3 lượt.');updateUI();}
+        function empireRaiseTax(){if(!spendAction('Tăng thuế'))return;stats.gold+=35;empireSystem.happiness=Math.max(0,empireSystem.happiness-10);log('💰 Tăng thuế: +35🪙 nhưng dân chúng bất mãn.');updateUI();}
+        function setGeneral(id){if(!empireSystem.generals[id])return;if(!spendAction('Bổ nhiệm tướng'))return;empireSystem.selectedGeneral=id;log(`⚔️ Đại tướng ${empireSystem.generals[id].name} được bổ nhiệm.`);updateUI();}
         function diploAction(fid,action){ensureWorldMapState();let st=worldMapState.factions[fid],d=empireSystem.diplomacy[fid];if(!st||!d)return;
-          if(action==='ally'&&st.relation>=70){d.status='ally';st.relation=Math.min(100,st.relation+5);log(`🤝 ${WORLD_FACTIONS[fid].name} trở thành đồng minh.`);}
-          else if(action==='peace'&&d.war){d.war=false;d.status='peace';st.relation=Math.min(100,st.relation+20);log(`🕊️ Ký hòa ước với ${WORLD_FACTIONS[fid].name}.`);}
-          else if(action==='war'){d.war=true;d.status='war';st.relation=Math.max(0,st.relation-25);log(`⚔️ Tuyên chiến với ${WORLD_FACTIONS[fid].name}!`);}
-          else if(action==='aid'&&stats.food>=80&&stats.gold>=50){stats.food-=80;stats.gold-=50;d.favor+=15;st.relation=Math.min(100,st.relation+12);log(`🎁 Viện trợ ${WORLD_FACTIONS[fid].name}: +12 quan hệ.`);}
-          else if(action==='vassal'&&st.relation>=85&&d.favor>=20){d.status='vassal';st.relation=60;log(`👑 ${WORLD_FACTIONS[fid].name} trở thành chư hầu.`);}
-          else if(action==='marriage'&&st.relation>=65){d.status='marriage';st.relation=Math.min(100,st.relation+15);log(`💍 Hôn ước hoàng gia với ${WORLD_FACTIONS[fid].name}.`);}
+          if(action==='ally'&&st.relation>=70){if(!spendAction('Liên minh'))return;d.status='ally';st.relation=Math.min(100,st.relation+5);log(`🤝 ${WORLD_FACTIONS[fid].name} trở thành đồng minh.`);}
+          else if(action==='peace'&&d.war){if(!spendAction('Hòa ước'))return;d.war=false;d.status='peace';st.relation=Math.min(100,st.relation+20);log(`🕊️ Ký hòa ước với ${WORLD_FACTIONS[fid].name}.`);}
+          else if(action==='war'){if(!spendAction('Tuyên chiến'))return;d.war=true;d.status='war';st.relation=Math.max(0,st.relation-25);log(`⚔️ Tuyên chiến với ${WORLD_FACTIONS[fid].name}!`);}
+          else if(action==='aid'&&stats.food>=80&&stats.gold>=50){if(!spendAction('Viện trợ'))return;stats.food-=80;stats.gold-=50;d.favor+=15;st.relation=Math.min(100,st.relation+12);log(`🎁 Viện trợ ${WORLD_FACTIONS[fid].name}: +12 quan hệ.`);}
+          else if(action==='vassal'&&st.relation>=85&&d.favor>=20){if(!spendAction('Phong chư hầu'))return;d.status='vassal';st.relation=60;log(`👑 ${WORLD_FACTIONS[fid].name} trở thành chư hầu.`);}
+          else if(action==='marriage'&&st.relation>=65){if(!spendAction('Hôn ước'))return;d.status='marriage';st.relation=Math.min(100,st.relation+15);log(`💍 Hôn ước hoàng gia với ${WORLD_FACTIONS[fid].name}.`);}
           else {log('❌ Điều kiện ngoại giao chưa đủ.');}
           updateUI();
         }
-        function setSpecialization(cellIndex,spec){let c=gridData[cellIndex];if(!c||!['farm','mine','lumber','quarry','market','academy','house'].includes(c.type)||(c.level||1)<3){log('❌ Chỉ công trình Lv.3+ mới chuyên môn hóa.');return;}c.specialization=spec;empireSystem.specializations[cellIndex]=spec;log(`🏭 Chuyên môn hóa ${c.type} → ${spec}.`);updateUI();}
-        function startEndgameThreat(){if(!technologies.apocalypse_protocol?.researched){log('🔒 Cần Nghị Định Tận Thế để gọi Đại Khủng Hoảng.');return;}if(empireSystem.endgame.defeated){log('🏆 Đại Khủng Hoảng đã bị đánh bại.');return;}if(!empireSystem.endgame.active){empireSystem.endgame.active=true;empireSystem.endgame.progress=0;empireSystem.endgame.bossHP=1000;log('☄️ ĐẠI KHỦNG HOẢNG THỨC TỈNH! Các phe tạm ngừng chiến và thế giới bước vào giai đoạn cuối.');}}
-        function attackEndgame(){if(!empireSystem.endgame.active){startEndgameThreat();return;}let army=stats.swords+stats.archers+stats.cavalry+stats.mercs;if(army<10){log('❌ Cần ít nhất 10 quân để giao chiến với Đại Khủng Hoảng.');return;}let power=stats.swords*7+stats.archers*6+stats.cavalry*10+stats.mercs*14+(stats.hasHero?25:0)+(technologies.grand_army?.researched?20:0);let dmg=Math.floor(power*(0.8+Math.random()*.5));empireSystem.endgame.bossHP=Math.max(0,empireSystem.endgame.bossHP-dmg);let loss=Math.min(army,Math.floor(dmg/25));while(loss>0){if(stats.swords){stats.swords--;loss--;}else if(stats.archers){stats.archers--;loss--;}else if(stats.cavalry){stats.cavalry--;loss--;}else if(stats.mercs){stats.mercs--;loss--;}}log(`🐉 Giao chiến Đại Khủng Hoảng: -${dmg} HP boss, tổn thất quân.`);if(empireSystem.endgame.bossHP<=0){empireSystem.endgame.defeated=true;empireSystem.endgame.active=false;empireSystem.victories++;stats.gold+=3000;stats.researchPoints+=1000;log('🏆 THẮNG CUỘC! Bạn đã đánh bại mối đe dọa cuối cùng của thế giới!');}updateUI();}
+        function setSpecialization(cellIndex,spec){let c=gridData[cellIndex];if(!c||!['farm','mine','lumber','quarry','market','academy','house'].includes(c.type)||(c.level||1)<3){log('❌ Chỉ công trình Lv.3+ mới chuyên môn hóa.');return;}if(!spendAction('Chuyên môn hóa'))return;c.specialization=spec;empireSystem.specializations[cellIndex]=spec;log(`🏭 Chuyên môn hóa ${c.type} → ${spec}.`);updateUI();}
+        function startEndgameThreat(){if(!technologies.apocalypse_protocol?.researched){log('🔒 Cần Nghị Định Tận Thế để gọi Đại Khủng Hoảng.');return;}if(empireSystem.endgame.defeated){log('🏆 Đại Khủng Hoảng đã bị đánh bại.');return;}if(!empireSystem.endgame.active){if(!spendAction('Kích hoạt Đại Khủng Hoảng'))return;empireSystem.endgame.active=true;empireSystem.endgame.progress=0;empireSystem.endgame.bossHP=1000;log('☄️ ĐẠI KHỦNG HOẢNG THỨC TỈNH! Các phe tạm ngừng chiến và thế giới bước vào giai đoạn cuối.');}}
+        function attackEndgame(){if(!empireSystem.endgame.active){startEndgameThreat();return;}let army=stats.swords+stats.archers+stats.cavalry+stats.mercs;if(army<10){log('❌ Cần ít nhất 10 quân để giao chiến với Đại Khủng Hoảng.');return;}if(!spendAction('Tổng tấn công Đại Khủng Hoảng'))return;const endgameStamina=militaryStaminaCost(army,22);if(!spendMilitaryStamina(endgameStamina,'Tổng tấn công Đại Khủng Hoảng')){stats.actionsUsed=Math.max(0,stats.actionsUsed-1);updateActionCounter();return;}let power=stats.swords*7+stats.archers*6+stats.cavalry*10+stats.mercs*14+(stats.hasHero?25:0)+(technologies.grand_army?.researched?20:0);let dmg=Math.floor(power*(0.8+Math.random()*.5));empireSystem.endgame.bossHP=Math.max(0,empireSystem.endgame.bossHP-dmg);let loss=Math.min(army,Math.floor(dmg/25));while(loss>0){if(stats.swords){stats.swords--;loss--;}else if(stats.archers){stats.archers--;loss--;}else if(stats.cavalry){stats.cavalry--;loss--;}else if(stats.mercs){stats.mercs--;loss--;}}log(`🐉 Giao chiến Đại Khủng Hoảng: -${dmg} HP boss, tổn thất quân · 🔥 Stamina -${endgameStamina}.`);if(empireSystem.endgame.bossHP<=0){empireSystem.endgame.defeated=true;empireSystem.endgame.active=false;empireSystem.victories++;stats.gold+=3000;stats.researchPoints+=1000;log('🏆 THẮNG CUỘC! Bạn đã đánh bại mối đe dọa cuối cùng của thế giới!');}updateUI();}
         function renderEmpirePanel(){
           empireInit();let hv=document.getElementById('happinessValue');if(hv)hv.textContent=Math.round(empireSystem.happiness);
           let hd=document.getElementById('happinessDesc');if(hd)hd.textContent=empireSystem.happiness>=80?'🌟 Dân chúng phấn khởi.':empireSystem.happiness>=55?'😊 Dân chúng ổn định.':empireSystem.happiness>=30?'⚠️ Bất mãn đang tăng.':'🔥 Nguy cơ bạo loạn!';
@@ -2614,7 +2737,7 @@
           let es=document.getElementById('endgameStatus');if(es)es.innerHTML=empireSystem.endgame.defeated?'🏆 THẾ GIỚI ĐÃ ĐƯỢC CỨU!':empireSystem.endgame.active?`☄️ Boss HP: ${empireSystem.endgame.bossHP}/1000 <button onclick="attackEndgame()">⚔️ Tổng tấn công</button>`:'Đại Khủng Hoảng chưa thức tỉnh.';
         }
         function chooseSpecializationPrompt(){let candidates=gridData.map((c,i)=>({c,i})).filter(x=>['farm','mine','lumber','quarry','market','academy','house'].includes(x.c.type)&&(x.c.level||1)>=3);if(!candidates.length){log('❌ Chưa có công trình Lv.3+.');return;}let list=candidates.slice(0,12).map(x=>`${x.i}: ${x.c.type} Lv.${x.c.level}`).join('\n');let i=prompt('Nhập index công trình:\n'+list);if(i===null)return;let spec=prompt('Chuyên môn: agriculture / industry / trade / academy');if(spec)setSpecialization(Number(i),spec);}
-        function trainEliteGuard(){if(!technologies.grand_army?.researched){log('🔒 Cần công nghệ Đại Quân Đoàn.');return;}if(stats.gold<250||stats.iron<30||stats.food<15||stats.pop<1){log('❌ Thiếu tài nguyên hoặc dân để tuyển Vệ Binh Hoàng Gia.');return;}stats.gold-=250;stats.iron-=30;stats.food-=15;stats.pop--;stats.mercs++;stats.defense+=3;log('🛡️ Tuyển 1 Vệ Binh Hoàng Gia tinh nhuệ (+3 phòng thủ).');updateUI();}
+        function trainEliteGuard(){if(!technologies.grand_army?.researched){log('🔒 Cần công nghệ Đại Quân Đoàn.');return;}if(stats.gold<250||stats.iron<30||stats.food<15||stats.pop<1){log('❌ Thiếu tài nguyên hoặc dân để tuyển Vệ Binh Hoàng Gia.');return;}if(!spendAction('Tuyển Vệ Binh Hoàng Gia'))return;stats.gold-=250;stats.iron-=30;stats.food-=15;stats.pop--;stats.mercs++;stats.defense+=3;log('🛡️ Tuyển 1 Vệ Binh Hoàng Gia tinh nhuệ (+3 phòng thủ).');updateUI();}
 function processEmpireTurn(details){
           empireInit();let foodNeed=stats.pop+stats.swords+stats.archers+stats.cavalry+stats.mercs;if(stats.food<0)empireSystem.happiness=Math.max(0,empireSystem.happiness-15);else if(stats.food>foodNeed*2)empireSystem.happiness=Math.min(100,empireSystem.happiness+2);else empireSystem.happiness=Math.max(0,empireSystem.happiness-1);
           if(empireSystem.taxReliefTurns>0)empireSystem.taxReliefTurns--;
@@ -2643,6 +2766,7 @@ function refreshTechTree(){
                 return;
             }
 
+            if(!spendAction('Nghiên cứu công nghệ')) return;
             stats.researchPoints -= costRP;
             if (costGold) stats.gold -= costGold;
             if (costStone) stats.stone -= costStone;
@@ -2670,16 +2794,19 @@ function refreshTechTree(){
             if (type === 'sword') {
                 let g = Math.floor(25 * costMod), f = 10;
                 if (stats.gold < g || stats.food < f || stats.pop < 1) { log("❌ Thiếu Vàng, Thực hoặc Dân!"); return; }
+                if(!spendAction('Tuyển Kiếm Sĩ')) return;
                 stats.gold -= g; stats.food -= f; stats.pop--; stats.swords++;
                 log("⚔️ Tuyển mộ 1 Kiếm Sĩ!");
             } else if (type === 'arch') {
                 let g = Math.floor(30 * costMod), f = 10, st = Math.floor(10 * costMod);
                 if (stats.gold < g || stats.food < f || stats.stone < st || stats.pop < 1) { log("❌ Thiếu Vàng, Thực, Đá hoặc Dân!"); return; }
+                if(!spendAction('Tuyển Cung Thủ')) return;
                 stats.gold -= g; stats.food -= f; stats.stone -= st; stats.pop--; stats.archers++;
                 log("🏹 Tuyển mộ 1 Cung Thủ!");
             } else if (type === 'cavalry') {
                 let g = Math.floor(55 * costMod), f = 20, ir = Math.floor(20 * costMod);
                 if (stats.gold < g || stats.food < f || stats.iron < ir || stats.pop < 1) { log("❌ Thiếu Vàng, Thực, Sắt hoặc Dân!"); return; }
+                if(!spendAction('Tuyển Kỵ Binh')) return;
                 stats.gold -= g; stats.food -= f; stats.iron -= ir; stats.pop--; stats.cavalry++;
                 log("🐎 Tuyển mộ 1 Kỵ Binh xung kích!");
             }
@@ -2691,14 +2818,17 @@ function refreshTechTree(){
         function hireMercenary(type) {
             if (type === 'dragon') {
                 if (stats.gold < 180 || stats.iron < 20) { log("❌ Cần 180 Vàng và 20 Sắt để thuê Hiệp Sĩ Rồng!"); return; }
+                if(!spendAction('Thuê Hiệp Sĩ Rồng')) return;
                 stats.gold -= 180; stats.iron -= 20; stats.mercs++;
                 log("🐉 Đã thuê thành công 1 Hiệp Sĩ Rồng cực mạnh chiến đấu không tốn dân số!");
             } else if (type === 'assassin') {
                 if (stats.gold < 140 || stats.crystal < 15) { log("❌ Cần 140 Vàng và 15 Ma Thạch!"); return; }
+                if(!spendAction('Thuê Sát Thủ')) return;
                 stats.gold -= 140; stats.crystal -= 15; stats.mercs++;
                 log("🥷 Đã thuê 1 Sát Thủ Bóng Đêm tham gia lực lượng!");
             } else if (type === 'mage') {
                 if (stats.gold < 200 || stats.crystal < 30) { log("❌ Cần 200 Vàng và 30 Ma Thạch!"); return; }
+                if(!spendAction('Thuê Pháp Sư')) return;
                 stats.gold -= 200; stats.crystal -= 30; stats.mercs++;
                 log("🧙 Đã chiêu mộ Pháp Sư Chiến Trận gia cố phòng thủ phép thuật!");
             }
@@ -2709,6 +2839,7 @@ function refreshTechTree(){
 
         function organizeFestival() {
             if (stats.gold < 300) { log("❌ Tổ chức Đại Lễ Hội cần 300 Vàng!"); return; }
+            if(!spendAction('Tổ chức Đại Lễ Hội')) return;
             stats.gold -= 300;
             stats.festivalTurnsLeft = 5;
             showFloatingText("🎉 ĐẠI LỄ HỘI!", "#fbbf24");
@@ -2719,6 +2850,7 @@ function refreshTechTree(){
 
         function blackMarketDeal() {
             if (stats.gold < 200) { log("❌ Đấu giá Chợ Đen cần 200 Vàng!"); return; }
+            if(!spendAction('Đấu giá Chợ Đen')) return;
             stats.gold -= 200;
             let roll = Math.random();
             if (roll < 0.4) {
@@ -2741,6 +2873,7 @@ function refreshTechTree(){
 
         function tribalDiplomacy() {
             if (stats.gold < 120) { log("❌ Cần 120 Vàng để hối lộ các bộ lạc hoang dã!"); return; }
+            if(!spendAction('Hối lộ Bộ Lạc')) return;
             stats.gold -= 120;
             stats.alliedTribes = true;
             log("🤝 Hối lộ thành công! Các bộ lạc lân cận trở thành đồng minh, không còn quấy phá biên giới và hỗ trợ khai hoang hòa bình.");
@@ -2786,6 +2919,7 @@ function refreshTechTree(){
                 return;
             }
 
+            if(!spendAction('Xây Kỳ Quan')) return;
             stats.gold -= c.gold;
             if (c.stone) stats.stone -= c.stone;
             if (c.iron) stats.iron -= c.iron;
@@ -2845,6 +2979,7 @@ function refreshTechTree(){
                 let requiredWood = 25 * multiplier;
                 let gainedGold = 20 * multiplier;
                 if (stats.wood < requiredWood) { log(`❌ Không đủ gỗ! Cần ${requiredWood}🪵.`); return; }
+                if(!spendAction('Bán Gỗ')) return;
                 stats.wood -= requiredWood; addResource('gold', gainedGold);
                 showFloatingText(`+${gainedGold}🪙`, "#fbbf24");
                 log(`🏛️ Bán ${requiredWood} Gỗ lấy ${gainedGold} Vàng.`);
@@ -2852,6 +2987,7 @@ function refreshTechTree(){
                 let requiredStone = 15 * multiplier;
                 let gainedGold = 25 * multiplier;
                 if (stats.stone < requiredStone) { log(`❌ Không đủ đá! Cần ${requiredStone}🧱.`); return; }
+                if(!spendAction('Bán Đá')) return;
                 stats.stone -= requiredStone; addResource('gold', gainedGold);
                 showFloatingText(`+${gainedGold}🪙`, "#fbbf24");
                 log(`🏛️ Bán ${requiredStone} Đá lấy ${gainedGold} Vàng.`);
@@ -2859,6 +2995,7 @@ function refreshTechTree(){
                 let requiredGold = 18 * multiplier;
                 let gainedFood = 25 * multiplier;
                 if (stats.gold < requiredGold) { log(`❌ Không đủ vàng! Cần ${requiredGold}🪙.`); return; }
+                if(!spendAction('Mua Lương Thực')) return;
                 stats.gold -= requiredGold; addResource('food', gainedFood);
                 showFloatingText(`+${gainedFood}🌾`, "#34d399");
                 log(`🏛️ Mua ${gainedFood} Lương thực với giá ${requiredGold}🪙.`);
@@ -2866,6 +3003,7 @@ function refreshTechTree(){
                 let requiredCrystal = 10 * multiplier;
                 let gainedGold = 60 * multiplier;
                 if (stats.crystal < requiredCrystal) { log(`❌ Không đủ ma thạch! Cần ${requiredCrystal}🔮.`); return; }
+                if(!spendAction('Đổi Ma Thạch')) return;
                 stats.crystal -= requiredCrystal; addResource('gold', gainedGold);
                 showFloatingText(`+${gainedGold}🪙`, "#fbbf24");
                 log(`🏛️ Đổi ${requiredCrystal} Ma Thạch lấy ${gainedGold} Vàng.`);
@@ -2900,6 +3038,7 @@ function refreshTechTree(){
             if (mode === 'buy') {
                 const cost = p.buy * qty;
                 if (stats.gold < cost) { log(`❌ Không đủ Vàng. Cần ${cost}🪙 để mua ${qty} ${f.exportName}.`); return; }
+                if(!spendAction('Mua hàng quốc tế')) return;
                 stats.gold -= cost; addResource(f.export, qty); tradeSystem.totalProfit -= cost;
                 tradeSystem.reputation = Math.min(100, tradeSystem.reputation + 1);
                 tradeSystem.successfulTrades++;
@@ -2907,6 +3046,7 @@ function refreshTechTree(){
             } else {
                 if ((stats[f.export] || 0) < qty) { log(`❌ Không đủ ${f.exportName} để bán.`); return; }
                 const gain = p.sell * qty;
+                if(!spendAction('Bán hàng quốc tế')) return;
                 stats[f.export] -= qty; addResource('gold', gain); tradeSystem.totalProfit += gain;
                 tradeSystem.reputation = Math.min(100, tradeSystem.reputation + 1);
                 tradeSystem.successfulTrades++;
@@ -2924,6 +3064,7 @@ function refreshTechTree(){
             const p = getTradeFactionPrice(factionId);
             const fee = Math.max(20, Math.floor(p.buy * 2.5));
             if (stats.gold < fee) { log(`❌ Cần ${fee}🪙 vốn mở tuyến.`); return; }
+            if(!spendAction('Mở tuyến thương mại')) return;
             stats.gold -= fee;
             tradeSystem.routes.push({ id: Date.now() + Math.random(), factionId, turnsLeft: 5 + Math.floor(Math.random()*3), cargo: 15, fee, risk: Math.max(0.03, f.risk - tradeSystem.reputation/1000) });
             tradeSystem.reputation = Math.min(100, tradeSystem.reputation + 2);
@@ -2992,13 +3133,17 @@ function refreshTechTree(){
             let lootWood = Math.floor((Math.random() * 35) + 20);
             let lootIron = Math.floor((Math.random() * 20) + 10);
 
+            if(!spendAction('Viễn chinh Hoang Dã')) return;
+            const raidStamina=militaryStaminaCost(totalArmy,18);
+            if(!spendMilitaryStamina(raidStamina,'Viễn chinh Hoang Dã')) { stats.actionsUsed=Math.max(0,stats.actionsUsed-1); updateActionCounter(); return; }
+            const raidLoss=applyArmyCasualties(totalArmy,0.06,'Viễn chinh Hoang Dã');
             addResource('gold', lootGold);
             addResource('stone', lootStone);
             addResource('wood', lootWood);
             addResource('iron', lootIron);
 
             showFloatingText(`+${lootGold}🪙`, "#fbbf24");
-            log(`🎉 Viễn chinh toàn thắng! Mang về ${lootGold}🪙, ${lootWood}🪵, ${lootStone}🧱, ${lootIron}⛏️.`);
+            log(`🎉 Viễn chinh toàn thắng! Mang về ${lootGold}🪙, ${lootWood}🪵, ${lootStone}🧱, ${lootIron}⛏️${raidLoss?` · mất ${raidLoss} quân`:''}. Stamina -${raidStamina}.`);
             checkQuestProgress('accumulate_gold');
             updateUI();
             playSound('battle');
@@ -3094,8 +3239,10 @@ function refreshTechTree(){
             const event = SPECIAL_EVENTS[pendingSpecialEvent.eventIndex];
             const choice = event && event.choices[choiceIndex];
             if (!choice) return;
+            if(!canSpendAction()) return;
             const result = choice.effect();
             if (result.startsWith('❌')) { log(result); playSound('error'); updateUI(); return; }
+            spendAction('Xử lý Sự Kiện Đặc Biệt');
             if (!pendingTurnDetails) pendingTurnDetails = [];
             pendingTurnDetails.push(`✨ ${event.title} → ${choice.title}: ${result}`);
             pendingSpecialEvent = null;
@@ -3191,7 +3338,7 @@ function refreshTechTree(){
             cells.forEach((c,i)=>{if(!known.has(i)) targets.push({fid,i});});
           });
           if(!targets.length){log('🗺️ Toàn bộ thế giới đã được khám phá.');return;}
-          const n=Math.min(8,Math.max(3,Math.floor(Math.random()*9)));
+          const n=Math.min(8,Math.max(3,Math.floor(Math.random()*9))); if(!spendAction('Khám phá World Map')) return;
           const shuffled=targets.sort(()=>Math.random()-.5).slice(0,n);
           shuffled.forEach(x=>{empireSystem.discovered[x.fid].push(x.i);});
           empireSystem.scouts--;
@@ -3263,11 +3410,111 @@ function refreshTechTree(){
           <div style="border:1px solid #334155;border-radius:9px;padding:9px"><b>🏆 ĐIỀU KIỆN CHIẾN THẮNG</b>${Object.entries(VICTORY_CONDITIONS).map(([id,x])=>`<small style="display:block;margin-top:3px">${x.name}: ${x.desc}</small>`).join('')}${victory?`<div style="margin-top:6px;font-weight:800;color:#fbbf24">🏆 ĐÃ THẮNG: ${VICTORY_CONDITIONS[victory].name} — Lượt ${empireSystem.victory.turn}</div>`:''}</div>`;
         }
 
+        // ===== HỆ THỐNG STAMINA & TỔN THẤT QUÂN =====
+        const MAX_ARMY_STAMINA = 100;
+        const ARMY_STAMINA_REGEN = 25;
+        function ensureArmyStamina(){
+            if(!Number.isFinite(stats.armyStamina)) stats.armyStamina = MAX_ARMY_STAMINA;
+            stats.armyStamina = Math.max(0, Math.min(MAX_ARMY_STAMINA, stats.armyStamina));
+        }
+        function updateArmyStaminaUI(){
+            ensureArmyStamina();
+            const el=document.getElementById('armyStamina'), max=document.getElementById('armyStaminaMax');
+            if(el) el.innerText=Math.round(stats.armyStamina);
+            if(max) max.innerText=MAX_ARMY_STAMINA;
+        }
+        function militaryStaminaCost(committed, base=12){
+            return Math.max(base, Math.min(55, base + Math.ceil(committed * 2.5)));
+        }
+        function spendMilitaryStamina(cost, label='Hoạt động quân sự'){
+            ensureArmyStamina();
+            if(stats.armyStamina < cost){
+                log(`🔥 Không đủ Stamina quân đội cho ${label}! Cần ${cost}, hiện có ${Math.floor(stats.armyStamina)}. Hãy kết thúc lượt để hồi ${ARMY_STAMINA_REGEN} Stamina.`);
+                updateArmyStaminaUI(); playSound('error'); return false;
+            }
+            stats.armyStamina -= cost;
+            return true;
+        }
+        function applyArmyCasualties(total, rate, label='giao chiến'){
+            total=Math.max(0, Math.floor(total));
+            if(total<=0) return 0;
+            const loss=Math.min(total, Math.max(0, Math.floor(total*rate + Math.random()*1.5)));
+            let remaining=loss;
+            // Ưu tiên tổn thất nhẹ ở mercenary, sau đó phân bổ theo tỷ lệ đơn vị.
+            const pools=[
+                ['swords', Math.max(1,Math.round(total*0.35))],
+                ['archers', Math.max(1,Math.round(total*0.25))],
+                ['cavalry', Math.max(1,Math.round(total*0.20))],
+                ['mercs', Math.max(1,Math.round(total*0.20))]
+            ];
+            for(const [type] of pools){
+                if(remaining<=0) break;
+                const available=Math.max(0,stats[type]||0);
+                const take=Math.min(available, remaining);
+                stats[type]-=take; remaining-=take;
+            }
+            if(remaining>0){
+                for(const type of ['swords','archers','cavalry','mercs']){
+                    if(remaining<=0) break;
+                    const take=Math.min(Math.max(0,stats[type]||0),remaining);
+                    stats[type]-=take; remaining-=take;
+                }
+            }
+            const actual=loss-remaining;
+            if(actual>0) log(`🩸 ${label}: tổn thất ${actual} quân.`);
+            return actual;
+        }
+        function recoverArmyStamina(details){
+            ensureArmyStamina();
+            const before=stats.armyStamina;
+            stats.armyStamina=Math.min(MAX_ARMY_STAMINA, stats.armyStamina+ARMY_STAMINA_REGEN);
+            const gained=Math.floor(stats.armyStamina-before);
+            if(gained>0) details.push(`🔥 Quân đội nghỉ ngơi và hồi +${gained} Stamina.`);
+        }
+
+        // ===== GIỚI HẠN 5 HÀNH ĐỘNG MỖI LƯỢT =====
+        const MAX_ACTIONS_PER_TURN = 5;
+        function ensureActionState(){
+            if(!Number.isFinite(stats.actionsUsed) || stats.actionsUsed < 0) stats.actionsUsed = 0;
+            if(stats.actionsUsed > MAX_ACTIONS_PER_TURN) stats.actionsUsed = MAX_ACTIONS_PER_TURN;
+        }
+        function canSpendAction(){
+            ensureActionState();
+            if(stats.actionsUsed >= MAX_ACTIONS_PER_TURN){
+                log(`⛔ Đã dùng hết ${MAX_ACTIONS_PER_TURN} hành động trong Lượt ${stats.turn}. Hãy KẾT THÚC LƯỢT để hồi lại.`);
+                updateActionCounter();
+                playSound('error');
+                return false;
+            }
+            return true;
+        }
+        function spendAction(label='Hành động'){
+            ensureActionState();
+            if(stats.actionsUsed >= MAX_ACTIONS_PER_TURN){
+                log(`⛔ Đã dùng hết ${MAX_ACTIONS_PER_TURN} hành động trong Lượt ${stats.turn}. Hãy KẾT THÚC LƯỢT để hồi lại.`);
+                updateActionCounter();
+                playSound('error');
+                return false;
+            }
+            stats.actionsUsed++;
+            updateActionCounter();
+            return true;
+        }
+        function updateActionCounter(){
+            ensureActionState();
+            const used=document.getElementById('actionsUsed');
+            const max=document.getElementById('actionsMax');
+            if(used) used.innerText=stats.actionsUsed;
+            if(max) max.innerText=MAX_ACTIONS_PER_TURN;
+        }
+
         function nextTurn() {
             if (pendingSpecialEvent) { log("⚠️ Hãy xử lý Sự Kiện Đặc Biệt trước khi kết thúc lượt tiếp theo."); return; }
             // Mảng tạm ghi chép sự kiện cụ thể của lượt này để hiển thị chi tiết trong pop-up
             let currentTurnDetails = [];
 
+            stats.actionsUsed = 0;
+            recoverArmyStamina(currentTurnDetails);
             stats.turn++;
             processEmpireTurn(currentTurnDetails);
 
@@ -3406,12 +3653,20 @@ function refreshTechTree(){
                     if (stats.heroSkillActive) { totalDefend *= 2; stats.heroSkillActive = false; }
 
                     if (totalDefend >= enemyPower) {
-                        currentTurnDetails.push(`⚔️ Địch tập kích (Sức mạnh: ${enemyPower}, Thủ: ${totalDefend}) ➔ Quân đội phòng thủ thành công!`);
-                        log("🛡️ Đánh tan đợt tấn công hoàn toàn!");
+                        const defendArmy=stats.swords+stats.archers+stats.cavalry+stats.mercs;
+                        const defenseStamina=Math.min(30,Math.max(8,Math.floor(enemyPower/4)));
+                        stats.armyStamina=Math.max(0,stats.armyStamina-defenseStamina);
+                        const defenseLoss=applyArmyCasualties(defendArmy,0.025,'Phòng thủ vương quốc');
+                        currentTurnDetails.push(`⚔️ Địch tập kích (Sức mạnh: ${enemyPower}, Thủ: ${totalDefend}) ➔ Quân đội phòng thủ thành công! -${defenseStamina} Stamina${defenseLoss?` · -${defenseLoss} quân`:''}.`);
+                        log(`🛡️ Đánh tan đợt tấn công hoàn toàn! Stamina -${defenseStamina}${defenseLoss?` · mất ${defenseLoss} quân`:''}.`);
                     } else {
                         let damage = (enemyPower - totalDefend) * 4;
+                        const defendArmy=stats.swords+stats.archers+stats.cavalry+stats.mercs;
+                        const defenseStamina=Math.min(40,Math.max(10,Math.floor(enemyPower/3)));
+                        stats.armyStamina=Math.max(0,stats.armyStamina-defenseStamina);
+                        const defenseLoss=applyArmyCasualties(defendArmy,0.10,'Phòng thủ thất bại');
                         stats.gold = Math.max(0, stats.gold - damage);
-                        currentTurnDetails.push(`💥 Địch tập kích đột phá thành công (Sức mạnh: ${enemyPower}, Thủ: ${totalDefend}) ➔ Cướp đi ${damage} Vàng!`);
+                        currentTurnDetails.push(`💥 Địch tập kích đột phá thành công (Sức mạnh: ${enemyPower}, Thủ: ${totalDefend}) ➔ Cướp đi ${damage} Vàng, -${defenseStamina} Stamina${defenseLoss?` · -${defenseLoss} quân`:''}!`);
                         log(`💥 Lãnh thổ bị cướp mất ${damage} Vàng.`);
                     }
                 }
@@ -3451,6 +3706,7 @@ function refreshTechTree(){
         }
 
         empireInit();
+        ensureActionState();
         ensure4XState();
         generateNewMap();
         generateNewQuest();
@@ -3462,3 +3718,9 @@ function refreshTechTree(){
 </body>
 </html
             renderEmpirePanel();>
+<script>
+// Tên vương quốc/người trị vì được yêu cầu khi ván mới chưa có dữ liệu tên.
+window.addEventListener('load', () => {
+    setTimeout(() => { if (typeof showKingdomNaming === 'function') showKingdomNaming(false); }, 80);
+});
+</script>
