@@ -779,32 +779,6 @@
         @media(max-width:760px){ .world-body{grid-template-columns:1fr}.world-factions{border-right:0;border-bottom:1px solid #27324a;max-height:170px}.world-actions-grid{grid-template-columns:1fr 1fr}.world-army-inputs{grid-template-columns:1fr 1fr} }
 
         .tech-tree-panel{display:none;grid-template-columns:none!important;overflow:auto;padding:10px}.tech-tree-panel.active{display:block}.tech-tree-header{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#0e131d;border:1px solid #29364d;border-radius:10px;padding:10px;margin-bottom:8px}.tech-tree-header small{display:block;color:#8b9ab0;font-size:.68rem;margin-top:3px}.tech-rp-badge{font-weight:900;background:#161b29;border:1px solid #374151;border-radius:8px;padding:7px 10px;white-space:nowrap}.tech-legend{display:flex;gap:10px;flex-wrap:wrap;color:#8b9ab0;font-size:.62rem;margin:6px 2px 10px}.tech-tree-grid{display:grid;grid-template-columns:1fr;gap:9px}.tech-branch{background:#0a0e16;border:1px solid #27324a;border-radius:10px;padding:8px}.tech-branch h4{margin:0 0 7px;font-size:.72rem;letter-spacing:.3px}.tech-row{display:flex;align-items:stretch;gap:5px;margin-bottom:6px}.tech-row:last-child{margin-bottom:0}.tech-row i{align-self:center;color:#65748a;font-style:normal;font-weight:900}.tech-node{position:relative;flex:1;min-width:0;text-align:left;border:1px solid #27324a;background:#111722;color:#fff;border-radius:8px;padding:7px;cursor:pointer;transition:.15s}.tech-node:hover{border-color:#fbbf24;transform:translateY(-1px)}.tech-node b{display:block;font-size:.68rem;margin:2px 0}.tech-node small{display:block;color:#94a3b8;font-size:.56rem}.tech-node em{display:block;color:#7dd3fc;font-size:.56rem;font-style:normal;margin-top:3px}.tech-node.tech-locked{opacity:.38;filter:grayscale(.65);cursor:not-allowed}.tech-node.tech-available{border-color:#eab308;box-shadow:0 0 0 1px rgba(234,179,8,.16)}.tech-node.tech-done{border-color:#22c55e;background:#0d1b16}.tech-branch.economy h4{color:#86efac}.tech-branch.military h4{color:#fca5a5}.tech-branch.magic h4{color:#c4b5fd}.tech-branch.industry h4{color:#fdba74}@media(max-width:700px){.tech-row{flex-wrap:wrap}.tech-row i{display:none}.tech-node{flex-basis:30%}}
-
-        /* WORLD MAP UX V2 — map-first, sticky actions, mobile-friendly */
-        .world-modal{padding:10px;backdrop-filter:blur(3px);}
-        .world-modal-box{width:min(1320px,98vw);height:min(94vh,900px);max-height:94vh;border-color:#3b4a63;border-radius:16px;background:linear-gradient(180deg,#080c14,#070a10);}
-        .world-head{min-height:58px;padding:10px 14px;background:rgba(10,14,23,.96);position:relative;z-index:5;}
-        .world-head-copy{min-width:0}.world-head h2{font-size:1.02rem;letter-spacing:.2px}.world-head small{font-size:.68rem;line-height:1.35;}
-        .world-head-tools{display:flex;align-items:center;gap:8px;flex-shrink:0}.world-keyhint{font-size:.58rem;color:#718096;border:1px solid #263247;border-radius:6px;padding:5px 7px;background:#0b1019;}
-        .world-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 12px;border-bottom:1px solid #202c40;background:#0a0f18;}
-        .world-toolbar-group{display:flex;gap:6px;flex-wrap:wrap}.world-toolbar button{border:1px solid #29364d;background:#111827;color:#dbe5f3;border-radius:7px;padding:6px 9px;font-size:.64rem;font-weight:800;cursor:pointer;}.world-toolbar button:hover{border-color:#fbbf24;background:#151c29;}
-        .world-legend{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:wrap;color:#7f8da3;font-size:.58rem;white-space:nowrap}.world-legend .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:3px;border:1px solid #64748b}.world-legend .dot.player{background:#285c47}.world-legend .dot.frontier{background:#f59e0b}.world-legend .dot.enemy{background:#6b2737}
-        .world-body{grid-template-columns:235px minmax(0,1fr);min-height:0;}
-        .world-factions{padding:9px;background:#090e16;border-right:1px solid #202c40;overflow:auto;scrollbar-width:thin;}
-        .world-faction-btn{padding:10px;margin-bottom:6px;transition:border-color .12s,background .12s,transform .12s;}.world-faction-btn:hover{transform:translateX(1px)}.world-faction-btn.active{box-shadow:inset 3px 0 0 #fbbf24,0 0 0 1px rgba(251,191,36,.12);}
-        .world-main{padding:10px 12px 14px;overflow:auto;scrollbar-width:thin;}
-        .world-info{position:sticky;top:-10px;z-index:4;padding:7px 0;margin:0 0 8px;background:linear-gradient(#080c14 72%,rgba(8,12,20,0));}
-        .world-pill{padding:5px 8px;box-shadow:0 2px 8px rgba(0,0,0,.18);}
-        .world-chunk-wrap{padding:8px;min-height:0;max-height:calc(100vh - 390px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;}
-        .world-chunk{width:min(100%,720px);min-width:410px;margin:0 auto;gap:2px;}
-        .world-cell{border-radius:2px;transition:filter .08s,box-shadow .08s;}.world-cell:hover{filter:brightness(1.16);z-index:3;}.world-cell.frontier{outline:2px solid rgba(245,158,11,.78);outline-offset:-1px;}.world-cell.selected{box-shadow:0 0 0 2px #fbbf24 inset,0 0 14px rgba(251,191,36,.28);}
-        .world-actions{position:sticky;bottom:0;z-index:8;margin-top:8px;background:rgba(10,15,24,.97);box-shadow:0 -8px 22px rgba(0,0,0,.22);backdrop-filter:blur(8px);padding:10px;}
-        .world-actions-grid{grid-template-columns:repeat(3,minmax(0,1fr));}.world-actions button{min-height:34px;}.world-actions button:disabled{opacity:.38;cursor:not-allowed;}
-        .world-building-grid{grid-template-columns:repeat(4,minmax(0,1fr));}.world-army-inputs input{font-size:.72rem;}
-        @media(max-width:900px){.world-modal{padding:5px}.world-modal-box{width:99vw;height:97vh;max-height:97vh}.world-body{grid-template-columns:185px minmax(0,1fr)}.world-chunk-wrap{max-height:calc(100vh - 360px)}}
-        @media(max-width:760px){.world-head{padding:9px 10px}.world-head h2{font-size:.86rem}.world-head small{font-size:.6rem}.world-keyhint{display:none}.world-toolbar{align-items:flex-start;flex-direction:column}.world-toolbar-group{width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}.world-toolbar button{white-space:nowrap}.world-legend{justify-content:flex-start;white-space:normal}.world-body{display:flex;flex-direction:column}.world-factions{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;max-height:none;padding:7px;border-right:0;border-bottom:1px solid #202c40}.world-faction-btn{min-width:145px;margin:0}.world-main{padding:8px}.world-info{top:-8px}.world-chunk-wrap{max-height:none;min-height:300px}.world-chunk{min-width:440px}.world-actions{position:relative;bottom:auto}.world-actions-grid{grid-template-columns:1fr 1fr}.world-building-grid{grid-template-columns:1fr 1fr}.world-army-inputs{grid-template-columns:1fr 1fr}}
-        @media(max-width:480px){.world-modal{padding:0}.world-modal-box{width:100vw;height:100dvh;max-height:100dvh;border-radius:0;border-left:0;border-right:0}.world-head{min-height:50px}.world-close{padding:6px 8px}.world-faction-btn{min-width:132px}.world-chunk-wrap{padding:6px}.world-chunk{min-width:420px}.world-actions-grid{grid-template-columns:1fr}.world-building-grid{grid-template-columns:1fr 1fr}}
-
         .floating-text {
             position: absolute;
             font-weight: bold;
@@ -902,6 +876,16 @@
             .map-help{font-size:.6rem;bottom:5px;}
             .map-controls{right:8px;top:8px;}
         }
+
+/* Typography pass: +5% global readability */
+html { font-size: 105%; }
+body, button, input, select, textarea { font-size: 105%; }
+.action-card b, .action-card small { display:block; }
+.action-card b { line-height:1.2; }
+.action-card small { margin-top:3px; }
+
+.condition-line { display:block; margin-top:3px; font-size:.92em; line-height:1.15; opacity:.88; }
+.action-card b .condition-line { font-weight:600; }
 </style>
 
     <!-- ADDITIVE: external CSS asset integration -->
@@ -979,7 +963,6 @@
                     <button class="tab-btn active" onclick="switchTab('build')">🏗️ Xây Dựng</button>
                     <button class="tab-btn" onclick="switchTab('army')">⚔️ Quân Đội</button>
                     <button class="tab-btn" onclick="switchTab('market')">🏛️ Chợ</button>
-                    <button class="tab-btn" onclick="switchTab('trade')">🚚 Giao Thương</button>
                     <button class="tab-btn" onclick="switchTab('mercenary')">🗡️ Đ.Thuê</button>
                     <button class="tab-btn" onclick="switchTab('wealth')">💰 Tiêu Tiền</button>
                     <button class="tab-btn" onclick="switchTab('wonder')">🏛️ Kỳ Quan</button>
@@ -1113,68 +1096,30 @@
                     </button>
                 </div>
 
-                <!-- Tab Chợ Thương Mại -->
-                <div id="tab-market" class="tab-content">
-                    <div class="market-card">
-                        <div>
-                            <b>🪱 Bán Gỗ lấy Vàng</b>
-                            <small>Giá: 25🪵 = 20🪙</small>
+                <!-- Tab Chợ Thương Mại — Thị trường động Mua/Bán -->
+                <div id="tab-market" class="tab-content market-tab-v2">
+                    <div class="market-v2-head">
+                        <div><b>🏪 CHỢ HOÀNG GIA</b><small>Mua và bán hàng hóa thật sự. Giá thay đổi theo cung/cầu, thảm họa và quy mô Chợ.</small></div>
+                        <div class="market-v2-stats"><span>📦 Kho chợ: <b id="marketStockCapacity">0</b></span><span>💸 Phí: <b id="marketFee">10%</b></span><span>📊 Sức chợ: <b id="marketPower">0</b></span></div>
+                    </div>
+                    <div class="market-v2-grid">
+                        <div class="market-v2-panel">
+                            <div class="market-section-title">🛒 MUA HÀNG</div>
+                            <div id="marketBuyList"></div>
                         </div>
-                        <div class="market-control">
-                            <input type="number" id="qty-woodToGold" value="1" min="1">
-                            <button onclick="tradeResourceCustom('woodToGold')">Bán</button>
+                        <div class="market-v2-panel">
+                            <div class="market-section-title">💰 BÁN HÀNG</div>
+                            <div id="marketSellList"></div>
                         </div>
                     </div>
-                    <div class="market-card">
-                        <div>
-                            <b>🧱 Bán Đá lấy Vàng</b>
-                            <small>Giá: 15🧱 = 25🪙</small>
-                        </div>
-                        <div class="market-control">
-                            <input type="number" id="qty-stoneToGold" value="1" min="1">
-                            <button onclick="tradeResourceCustom('stoneToGold')">Bán</button>
-                        </div>
+                    <div class="market-v2-bottom">
+                        <div class="market-v2-panel"><div class="market-section-title">📈 THỊ TRƯỜNG HÔM NAY</div><div id="marketPriceList"></div></div>
+                        <div class="market-v2-panel"><div class="market-section-title">📜 HỢP ĐỒNG THƯƠNG MẠI</div><div id="marketContracts"></div></div>
+                        <div class="market-v2-panel"><div class="market-section-title">🧾 GIAO DỊCH GẦN ĐÂY</div><div id="marketHistory"></div></div>
                     </div>
-                    <div class="market-card">
-                        <div>
-                            <b>🌾 Mua Lương Thực</b>
-                            <small>Giá: 25🌾 = 18🪙</small>
-                        </div>
-                        <div class="market-control">
-                            <input type="number" id="qty-goldToFood" value="1" min="1">
-                            <button onclick="tradeResourceCustom('goldToFood')">Mua</button>
-                        </div>
-                    </div>
-                    <div class="market-card">
-                        <div>
-                            <b>🔮 Đổi Ma Thạch</b>
-                            <small>Giá: 10🔮 = 60🪙</small>
-                        </div>
-                        <div class="market-control">
-                            <input type="number" id="qty-crystalTrade" value="1" min="1">
-                            <button onclick="tradeResourceCustom('crystalTrade')">Đổi</button>
-                        </div>
-                    </div>
+                    <div class="market-local-note" id="marketLocalNote"></div>
                 </div>
 
-                <!-- TAB GIAO THƯƠNG QUỐC TẾ -->
-                <div id="tab-trade" class="tab-content trade-tab">
-                    <div class="trade-summary-card">
-                        <div><b>🌍 Thương Mại Quốc Tế</b><small>Giao dịch với các thế lực bên ngoài. Chợ trong vương quốc là điều kiện bắt buộc.</small></div>
-                        <div class="trade-mini-stats">
-                            <span>⭐ Uy tín: <b id="tradeReputation">50</b></span>
-                            <span>🚚 Tuyến: <b id="tradeRoutes">0/1</b></span>
-                            <span>📈 Lời: <b id="tradeProfit">0</b>🪙</span>
-                        </div>
-                    </div>
-                    <div id="tradeFactionList" class="trade-faction-list"></div>
-                    <div class="trade-routes-box">
-                        <b>🚚 Các đoàn thương nhân đang hoạt động</b>
-                        <div id="tradeRouteList" class="trade-route-list"></div>
-                    </div>
-                </div>
-
-                <!-- Tab Lính Đánh Thuê -->
                 <div id="tab-mercenary" class="tab-content">
                     <button class="action-card" onclick="hireMercenary('dragon')">
                         <b>🐉 Hiệp Sĩ Rồng (-180🪙, -20 Iron)</b>
@@ -1327,8 +1272,6 @@
                     <div class="ach-item" id="ach-6"><span>🔬 Bậc Thầy Khoa Học (5 Công Nghệ)</span><span>🔒</span></div>
                     <div class="ach-item" id="ach-7"><span>👥 Đại Đô Thị (Dân số đạt 40)</span><span>🔒</span></div>
                     <div class="ach-item" id="ach-8"><span>🌍 Nhà Khám Phá (Mở rộng 50 ô đất)</span><span>🔒</span></div>
-                    <div class="ach-item" id="ach-9"><span>🚚 Đại Thương Gia (10 giao dịch quốc tế)</span><span>🔒</span></div>
-                    <div class="ach-item" id="ach-10"><span>📦 Ông Trùm Logistics (3 tuyến hoạt động)</span><span>🔒</span></div>
                 </div>
             </div>
 
@@ -1433,19 +1376,8 @@
     <div id="worldMapModal" class="world-modal">
         <div class="world-modal-box">
             <div class="world-head">
-                <div class="world-head-copy"><h2>🌍 WORLD MAP — CHIẾN TRANH & LÃNH THỔ</h2><small>Chọn phe → chọn ô → xem thông tin → xây dựng, ngoại giao, mua đất hoặc xuất quân.</small></div>
-                <div class="world-head-tools">
-                    <span class="world-keyhint">ESC · đóng</span>
-                    <button class="world-close" onclick="closeWorldMap()">✕ Đóng</button>
-                </div>
-            </div>
-            <div class="world-toolbar">
-                <div class="world-toolbar-group">
-                    <button onclick="focusWorldMapCenter()">🎯 Tâm bản đồ</button>
-                    <button onclick="focusWorldPlayerLand()">🟢 Lãnh thổ ta</button>
-                    <button onclick="focusWorldFrontier()">⚔️ Tuyến đầu</button>
-                </div>
-                <div class="world-legend"><span><i class="dot player"></i> Đất ta</span><span><i class="dot frontier"></i> Tuyến đầu</span><span><i class="dot enemy"></i> Đối phương</span><span>🌫️ Chưa khám phá</span></div>
+                <div><h2>🌍 WORLD MAP — CHIẾN TRANH & LÃNH THỔ</h2><small>Mỗi phe sở hữu một chunk 16×16. Chọn phe → chọn ô → mua lại hoặc điều quân xâm chiếm.</small></div>
+                <button class="world-close" onclick="closeWorldMap()">✕ Đóng</button>
             </div>
             <div class="world-body">
                 <div class="world-factions" id="worldFactionList"></div>
@@ -1589,7 +1521,7 @@
         let gridData = [];
         try { Object.defineProperty(window, 'gridData', { configurable:true, get:()=>gridData }); } catch(_) { window.gridData = gridData; }
         let keybinds = { 'farm': '1', 'mine': '2', 'lumber': '3', 'quarry': '4', 'warehouse': 'w', 'hunter': '5', 'crystal': '6', 'academy': 'a', 'house': '7', 'market': '8', 'tower': '9', 'expand': 'e' };
-        let achievements = { ach1: false, ach2: false, ach3: false, ach4: false, ach5: false, ach6: false, ach7: false, ach8: false, ach9: false, ach10: false };
+        let achievements = { ach1: false, ach2: false, ach3: false, ach4: false, ach5: false, ach6: false, ach7: false, ach8: false };
         let selectedActionType = null;
         let selectedWonderType = null;
         let currentDisaster = null;
@@ -1613,6 +1545,64 @@
             reputation: 50, totalProfit: 0, successfulTrades: 0, lostCaravans: 0,
             routes: [], lastMarketShift: 0
         };
+
+        // ===== CHỢ V2: thị trường động, mua/bán, cung-cầu, hợp đồng =====
+        const MARKET_GOODS = {
+            food:{name:'Lương thực',icon:'🌾',base:12}, wood:{name:'Gỗ',icon:'🪵',base:15}, stone:{name:'Đá',icon:'🧱',base:18},
+            iron:{name:'Sắt',icon:'⛏️',base:30}, leather:{name:'Da thú',icon:'🪶',base:22}, crystal:{name:'Ma Thạch',icon:'🔮',base:65}
+        };
+        let marketSystem = {
+            stock:{food:700,wood:650,stone:520,iron:320,leather:380,crystal:140},
+            trends:{food:1,wood:1,stone:1,iron:1,leather:1,crystal:1},
+            history:[], contracts:[], lastShift:0, totalBought:0, totalSold:0
+        };
+        function ensureMarketSystem(){
+            if(!marketSystem || typeof marketSystem!=='object') marketSystem={stock:{},trends:{},history:[],contracts:[],lastShift:0,totalBought:0,totalSold:0};
+            marketSystem.stock=marketSystem.stock||{}; marketSystem.trends=marketSystem.trends||{}; marketSystem.history=Array.isArray(marketSystem.history)?marketSystem.history:[]; marketSystem.contracts=Array.isArray(marketSystem.contracts)?marketSystem.contracts:[];
+            Object.keys(MARKET_GOODS).forEach(k=>{ if(typeof marketSystem.stock[k]!=='number') marketSystem.stock[k]=k==='crystal'?140:500; if(typeof marketSystem.trends[k]!=='number') marketSystem.trends[k]=1; });
+            if(typeof marketSystem.totalBought!=='number') marketSystem.totalBought=0; if(typeof marketSystem.totalSold!=='number') marketSystem.totalSold=0;
+        }
+        function getMarketPower(){ return gridData.filter(c=>c.type==='market').reduce((n,c)=>n+(c.level||1),0); }
+        function getMarketCapacity(){ return Math.max(0,getMarketPower()*700); }
+        function getMarketFee(){ const p=getMarketPower(); return Math.max(0.03,0.10-Math.min(.07,p*.012)); }
+        function getLocalMarketModifier(res){
+            const terrainCount={forest:0,mountain:0,normal:0}; gridData.forEach(c=>{if(c.nature==='forest')terrainCount.forest++;else if(c.nature==='mountain')terrainCount.mountain++;else terrainCount.normal++;});
+            let m=1; if(res==='wood' && terrainCount.forest>MAP_SIZE) m*=.92; if((res==='stone'||res==='iron')&&terrainCount.mountain>MAP_SIZE) m*=.94; if(res==='food'&&terrainCount.normal>MAP_SIZE*3) m*=.95;
+            if(res==='crystal' && gridData.some(c=>c.nature==='anomaly')) m*=.96; if(currentDisaster==='drought'&&res==='food')m*=1.35; if(currentDisaster==='blizzard'&&(res==='iron'||res==='stone'))m*=1.25; if(currentDisaster==='harvest'&&(res==='food'||res==='wood'))m*=.78; return m;
+        }
+        function getMarketPrices(res){
+            ensureMarketSystem(); const g=MARKET_GOODS[res]; const cap=Math.max(1,getMarketCapacity()); const stock=Math.max(0,marketSystem.stock[res]||0); const scarcity=Math.max(.70,Math.min(2.20,1.35-stock/Math.max(1,cap*.55))); const trend=marketSystem.trends[res]||1; const local=getLocalMarketModifier(res); const buy=Math.max(1,Math.round(g.base*trend*scarcity*local)); const spread=Math.max(.08,0.20-getMarketPower()*.02); const sell=Math.max(1,Math.round(buy*(1-spread))); return {buy,sell,stock,delta:trend*scarcity*local-1};
+        }
+        function marketCanTrade(){ if(getMarketPower()<=0){log('❌ Cần xây dựng Chợ 🏪 trước khi giao dịch!');return false;} return true; }
+        function marketTrade(res,side){
+            if(!marketCanTrade())return; const input=document.getElementById('marketQty-'+side+'-'+res); const qty=Math.max(1,Math.floor(Number(input?.value||1))); const p=getMarketPrices(res); const fee=getMarketFee(); const amount=qty*10;
+            if(side==='buy'){
+                const cost=Math.ceil(amount/10*p.buy*(1+fee)); if(stats.gold<cost){log(`❌ Không đủ vàng! Cần ${cost}🪙.`);return;} if((marketSystem.stock[res]||0)<amount){log('❌ Chợ không đủ hàng trong kho!');return;} if(stats[res]+amount>getMaxStorage()){log('❌ Kho vương quốc không đủ chỗ chứa!');return;}
+                if(!spendAction('Mua '+MARKET_GOODS[res].name))return; stats.gold-=cost; addResource(res,amount); marketSystem.stock[res]-=amount; marketSystem.totalBought+=amount; recordMarketHistory(`Mua ${amount} ${MARKET_GOODS[res].name}`,`-${cost}🪙`); showFloatingText(`-${cost}🪙`,'#fbbf24');
+            }else{
+                if(stats[res]<amount){log(`❌ Không đủ ${MARKET_GOODS[res].name}!`);return;} const revenue=Math.max(1,Math.floor(amount/10*p.sell*(1-fee))); if(!spendAction('Bán '+MARKET_GOODS[res].name))return; stats[res]-=amount; stats.gold=Math.min(getMaxStorage(),stats.gold+revenue); marketSystem.stock[res]=Math.min(getMarketCapacity(),(marketSystem.stock[res]||0)+amount); marketSystem.totalSold+=amount; recordMarketHistory(`Bán ${amount} ${MARKET_GOODS[res].name}`,`+${revenue}🪙`); showFloatingText(`+${revenue}🪙`,'#34d399');
+            }
+            updateUI(); playSound('click');
+        }
+        function recordMarketHistory(a,b){ ensureMarketSystem(); marketSystem.history.unshift({turn:stats.turn,text:a,value:b}); marketSystem.history=marketSystem.history.slice(0,8); }
+        function generateMarketContracts(){
+            ensureMarketSystem(); const keys=Object.keys(MARKET_GOODS); marketSystem.contracts=[]; for(let i=0;i<3;i++){const res=keys[(stats.turn+i*3)%keys.length]; const qty=(2+((stats.turn+i)%4))*10; const reward=Math.round(qty/10*MARKET_GOODS[res].base*(1.35+i*.12)); marketSystem.contracts.push({id:`${stats.turn}-${i}`,res,qty,reward,progress:0,done:false});}
+        }
+        function fulfillMarketContract(id){
+            if(!marketCanTrade())return; const c=marketSystem.contracts.find(x=>x.id===id); if(!c||c.done)return; if(stats[c.res]<c.qty){log(`❌ Không đủ ${MARKET_GOODS[c.res].name} để giao hợp đồng.`);return;} if(!spendAction('Hoàn thành hợp đồng chợ'))return; stats[c.res]-=c.qty; stats.gold=Math.min(getMaxStorage(),stats.gold+c.reward); c.done=true; c.progress=c.qty; recordMarketHistory(`Hoàn thành hợp đồng ${MARKET_GOODS[c.res].name}`,`+${c.reward}🪙`); log(`📜 Hợp đồng hoàn tất: giao ${c.qty} ${MARKET_GOODS[c.res].name}, nhận ${c.reward}🪙.`); updateUI(); }
+        function shiftMarketPrices(){
+            ensureMarketSystem(); if(getMarketPower()<=0)return; const cap=getMarketCapacity(); const produced={food:0,wood:0,stone:0,iron:0,leather:0,crystal:0}; gridData.forEach(c=>{const lv=c.level||1;if(c.type==='farm')produced.food+=lv*5;if(c.type==='lumber')produced.wood+=lv*4;if(c.type==='quarry')produced.stone+=lv*3;if(c.type==='mine')produced.iron+=lv*3;if(c.type==='hunter')produced.leather+=lv*3;if(c.type==='crystal')produced.crystal+=lv*2;}); Object.keys(MARKET_GOODS).forEach((k,i)=>{marketSystem.stock[k]=Math.min(cap,Math.max(0,(marketSystem.stock[k]||0)+produced[k]*getMarketPower())); const p=getMarketPrices(k); let drift=((stats.turn*13+i*17)%11-5)/100; if(p.stock<cap*.22)drift+=.05; if(p.stock>cap*.82)drift-=.05; marketSystem.trends[k]=Math.max(.65,Math.min(1.65,(marketSystem.trends[k]||1)*(1+drift)));}); marketSystem.lastShift=stats.turn; if(stats.turn%3===1)generateMarketContracts(); }
+        function renderMarketUI(){
+            const buy=document.getElementById('marketBuyList'),sell=document.getElementById('marketSellList'); if(!buy||!sell)return; ensureMarketSystem(); const power=getMarketPower(); document.getElementById('marketStockCapacity').innerText=getMarketCapacity(); document.getElementById('marketFee').innerText=Math.round(getMarketFee()*100)+'%'; document.getElementById('marketPower').innerText=power;
+            if(!marketSystem.contracts.length)generateMarketContracts(); const rows=Object.entries(MARKET_GOODS).map(([k,g])=>{const p=getMarketPrices(k); const arrow=p.delta>0.05?'↑':p.delta<-0.05?'↓':'→'; const cls=p.delta>0.05?'up':p.delta<-0.05?'down':''; return {k,g,p,arrow,cls};});
+            buy.innerHTML=rows.map(x=>`<div class="market-row"><div><b>${x.g.icon} ${x.g.name}</b><small>Kho chợ: ${x.p.stock} • Giá / 10</small></div><div class="market-price ${x.cls}">${x.p.buy}🪙 ${x.arrow}</div><div><input id="marketQty-buy-${x.k}" type="number" min="1" value="1"><button onclick="marketTrade('${x.k}','buy')">MUA</button></div></div>`).join('');
+            sell.innerHTML=rows.map(x=>`<div class="market-row"><div><b>${x.g.icon} ${x.g.name}</b><small>Kho bạn: ${stats[x.k]||0} • Giá / 10</small></div><div class="market-price ${x.cls}">${x.p.sell}🪙 ${x.arrow}</div><div><input id="marketQty-sell-${x.k}" type="number" min="1" value="1"><button onclick="marketTrade('${x.k}','sell')">BÁN</button></div></div>`).join('');
+            document.getElementById('marketPriceList').innerHTML=rows.map(x=>`<div class="market-mini"><span>${x.g.icon} ${x.g.name}</span><span>Mua ${x.p.buy}🪙 • Bán ${x.p.sell}🪙</span></div>`).join('');
+            document.getElementById('marketContracts').innerHTML=marketSystem.contracts.map(c=>{const g=MARKET_GOODS[c.res];return `<div class="market-contract ${c.done?'done':''}"><b>${g.icon} Giao ${c.qty} ${g.name}</b><small>Thưởng: ${c.reward}🪙 • ${c.done?'ĐÃ HOÀN TẤT':'Hợp đồng có thể hoàn thành ngay'}</small><button onclick="fulfillMarketContract('${c.id}')" ${c.done?'disabled':''}>${c.done?'✓ Hoàn tất':'GIAO HÀNG'}</button></div>`}).join('');
+            document.getElementById('marketHistory').innerHTML=marketSystem.history.length?marketSystem.history.map(h=>`<div class="market-mini"><span>Lv.${h.turn}</span><span>${h.text}</span><b>${h.value}</b></div>`).join(''):'<small style="color:#8293a8">Chưa có giao dịch.</small>';
+            const local=rows.slice().sort((a,b)=>a.p.buy-b.p.buy)[0]; document.getElementById('marketLocalNote').innerText=power?`🏘️ Thị trường địa phương: ${local.g.icon} ${local.g.name} đang là mặt hàng rẻ nhất (${local.p.buy}🪙/10). Giá chịu ảnh hưởng bởi địa hình, sản lượng, tồn kho và thảm họa. Nâng cấp Chợ giúp giảm phí và chênh lệch mua/bán.`:'🏪 Chưa có Chợ. Hãy xây Chợ để mở thị trường mua/bán.';
+        }
+
 
         // WORLD MAP: mỗi phe có đúng 1 chunk 16x16, dữ liệu tách khỏi bản đồ xây dựng chính.
         const WORLD_FACTIONS = {
@@ -1662,17 +1652,6 @@
 
         function openWorldMap() { ensureWorldMapState(); document.getElementById('worldMapModal').style.display='flex'; renderWorldMap(); playSound('click'); }
         function closeWorldMap() { document.getElementById('worldMapModal').style.display='none'; worldMapState.selectedCell=null; playSound('click'); }
-        function focusWorldMapCenter(){ worldMapState.selectedCell=7*16+7; renderWorldMap(); document.getElementById('worldChunkGrid')?.scrollIntoView({behavior:'smooth',block:'center'}); }
-        function focusWorldPlayerLand(){ worldMapState.selectedFaction='player'; const i=worldMapState.factions.player.cells.findIndex(c=>c.owner==='player'); worldMapState.selectedCell=i>=0?i:null; renderWorldMap(); }
-        function focusWorldFrontier(){
-            let found=null, fid=worldMapState.selectedFaction;
-            const factionIds=Object.keys(WORLD_FACTIONS).filter(id=>id!=='player');
-            for(const id of [fid,...factionIds]){ if(id==='player'||!worldMapState.factions[id]) continue; const i=worldMapState.factions[id].cells.findIndex((c,idx)=>c.owner!=='player'&&worldCellIsFrontier(id,idx)&&isWorldCellDiscovered(id,idx)); if(i>=0){found={fid:id,i};break;} }
-            if(found){ worldMapState.selectedFaction=found.fid; worldMapState.selectedCell=found.i; renderWorldMap(); setTimeout(()=>document.getElementById('worldChunkGrid')?.scrollIntoView({behavior:'smooth',block:'center'}),0); }
-            else { log('🧭 Chưa tìm thấy tuyến đầu đã khám phá.'); }
-        }
-        document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&document.getElementById('worldMapModal')?.style.display==='flex') closeWorldMap(); });
-        document.getElementById('worldMapModal')?.addEventListener('click',e=>{ if(e.target.id==='worldMapModal') closeWorldMap(); });
 
         function worldCellIsFrontier(factionId, index) {
             const cells=worldMapState.factions[factionId].cells; const r=Math.floor(index/16), c=index%16;
@@ -1863,7 +1842,6 @@
             {title:'Xây dựng 🏗️', text:'Mở tab Xây Dựng rồi chọn công trình, sau đó bấm vào ô đất hợp lệ. Trang trại tạo lương thực, mỏ tạo khoáng sản, kho tăng sức chứa, nhà tăng dân số tối đa và nhiều công trình khác có vai trò riêng.', target:'#card-farm'},
             {title:'Mỗi lượt là một bước phát triển ⏳', text:'Khi đã chuẩn bị xong, bấm KẾT THÚC LƯỢT. Công trình sẽ sản xuất, dân số và nền kinh tế được xử lý, sự kiện có thể xảy ra, và kẻ địch có thể tấn công. Vì vậy đừng kết thúc lượt khi đang thiếu tài nguyên hoặc phòng thủ.', target:'.btn-next-turn'},
             {title:'Quân đội ⚔️', text:'Tab Quân Đội dùng để tuyển và quản lý Swords, Archers, Cavalry và Mercs. Quân giúp phòng thủ vương quốc và là sức mạnh chính khi bạn tiến hành chinh phạt.', target:".tab-btn[onclick=\"switchTab('army')\"]"},
-            {title:'Thương mại & giao thương 🚚', text:'Chợ cho phép đổi tài nguyên trong nước; Giao Thương cho phép làm ăn với các phe khác. Uy tín, tuyến thương mại, giá cả và rủi ro đều ảnh hưởng lợi nhuận.', target:".tab-btn[onclick=\"switchTab('trade')\"]"},
             {title:'Cây công nghệ 📜', text:'Công nghệ mở các nâng cấp mạnh và cơ chế mới. Nhiều công nghệ có điều kiện tiên quyết, vì vậy hãy lập kế hoạch theo nhánh Kinh tế, Quân sự, Ma thuật và Công nghiệp.', target:".tab-btn[onclick=\"switchTab('tech')\"]"},
             {title:'Đế quốc 👑', text:'Đây là trung tâm của các hệ thống late-game: ngoại giao, hạnh phúc dân chúng, tướng lĩnh, chuyên môn hóa công trình và những quyết định có thể thay đổi cả đế chế.', target:".tab-btn[onclick=\"switchTab('empire')\"]"},
             {title:'Bản đồ thế giới 🌍', text:'Khi đã đủ mạnh, mở World Map để mua hoặc chinh phục lãnh thổ của các phe. Hãy chú ý địa hình, quân đồn trú, quan hệ ngoại giao và sức mạnh của đối thủ trước khi gây chiến.', target:'.sys-btn[onclick="openWorldMap()"]'},
@@ -2088,7 +2066,7 @@
                 townHallLevel: 0
             };
             for (let k in technologies) { technologies[k].researched = false; }
-            achievements = { ach1: false, ach2: false, ach3: false, ach4: false, ach5: false, ach6: false, ach7: false, ach8: false, ach9: false, ach10: false };
+            achievements = { ach1: false, ach2: false, ach3: false, ach4: false, ach5: false, ach6: false, ach7: false, ach8: false };
             currentDisaster = null;
             turnHistoryLogs = [];
             specialEventCooldown = 0;
@@ -2154,7 +2132,7 @@
         }
 
         function saveGame() {
-            const saveData = { stats, technologies, gridData, keybinds, achievements, currentDisaster, currentQuest, turnHistoryLogs, specialEventCooldown, pendingSpecialEvent, pendingTurnDetails, tradeSystem, worldMapState, empireSystem };
+            const saveData = { stats, technologies, gridData, keybinds, achievements, currentDisaster, currentQuest, turnHistoryLogs, specialEventCooldown, pendingSpecialEvent, pendingTurnDetails, tradeSystem, marketSystem, worldMapState, empireSystem };
             localStorage.setItem('tiny_kingdom_tech_save', JSON.stringify(saveData));
             alert("💾 Lưu trò chơi thành công vào bộ nhớ!");
             playSound('click');
@@ -2183,6 +2161,8 @@
                 pendingSpecialEvent = parsed.pendingSpecialEvent || null;
                 pendingTurnDetails = parsed.pendingTurnDetails || null;
                 tradeSystem = parsed.tradeSystem || { reputation:50, totalProfit:0, successfulTrades:0, lostCaravans:0, routes:[], lastMarketShift:0 };
+                marketSystem = parsed.marketSystem || marketSystem;
+                ensureMarketSystem();
                 tradeSystem.routes = Array.isArray(tradeSystem.routes) ? tradeSystem.routes : [];
                 worldMapState = parsed.worldMapState || worldMapState;
                 empireSystem = parsed.empireSystem || empireSystem;
@@ -2432,6 +2412,7 @@ function assetImg(key, className='asset-cell-art', alt='') {
                 const tradeSig = JSON.stringify([tradeSystem.reputation,tradeSystem.totalProfit,tradeSystem.successfulTrades,tradeSystem.lostCaravans,tradeSystem.routes]);
                 if (tradeSig !== lastTradeUISignature) { renderTradeUI(); lastTradeUISignature = tradeSig; }
             }
+            if (isTabActive('market')) renderMarketUI();
             if (isTabActive('empire')) {
                 const empireSig = JSON.stringify([empireSystem.happiness,empireSystem.selectedGeneral,empireSystem.victories,empireSystem.endgame,empireSystem.specializations,worldMapState.factions]);
                 if (empireSig !== lastEmpireUISignature) { renderEmpirePanel(); lastEmpireUISignature = empireSig; }
@@ -2483,8 +2464,6 @@ function assetImg(key, className='asset-cell-art', alt='') {
             if (!achievements.ach6 && unlockedTechs >= 5) { unlockAchievement('ach6', '🔬 Bậc Thầy Khoa Học (5 Công Nghệ)'); }
             if (!achievements.ach7 && stats.pop >= 40) { unlockAchievement('ach7', '👥 Đại Đô Thị (Dân số đạt 40)'); }
             if (!achievements.ach8 && unlockedExpands >= 50) { unlockAchievement('ach8', '🌍 Nhà Khám Phá (Mở rộng 50 ô đất)'); }
-            if (!achievements.ach9 && tradeSystem.successfulTrades >= 10) { unlockAchievement('ach9', '🚚 Đại Thương Gia (10 giao dịch quốc tế)'); }
-            if (!achievements.ach10 && tradeSystem.routes.length >= 3) { unlockAchievement('ach10', '📦 Ông Trùm Logistics (3 tuyến hoạt động)'); }
         }
 
         function unlockAchievement(id, name) {
@@ -2501,7 +2480,7 @@ function assetImg(key, className='asset-cell-art', alt='') {
             const tabContent = document.getElementById('tab-' + tabName);
             if (tabContent) tabContent.classList.add('active');
             // Dựng lại panel nặng đúng lúc người chơi mở tab, thay vì render liên tục khi tab đang ẩn.
-            if (tabName === 'trade' || tabName === 'empire') updateUI();
+            if (tabName === 'trade' || tabName === 'empire' || tabName === 'market') updateUI();
             playSound('click');
         }
 
@@ -3243,57 +3222,10 @@ function refreshTechTree(){
             return -1;
         }
 
+        // Tương thích với save/call cũ: các nút giao dịch cũ được chuyển sang Chợ V2.
         function tradeResourceCustom(type) {
-            let markets = gridData.filter(x => x.type === 'market').length;
-            if (markets === 0) { log("❌ Cần xây dựng Chợ 🏛️ trước khi giao thương!"); return; }
-
-            let inputEl = document.getElementById('qty-' + type);
-            let multiplier = parseInt(inputEl.value);
-
-            if (isNaN(multiplier) || multiplier <= 0) {
-                log("❌ Số lượng giao dịch phải lớn hơn 0!");
-                return;
-            }
-
-            if (type === 'woodToGold') {
-                let requiredWood = 25 * multiplier;
-                let gainedGold = 20 * multiplier;
-                if (stats.wood < requiredWood) { log(`❌ Không đủ gỗ! Cần ${requiredWood}🪵.`); return; }
-                if(!spendAction('Bán Gỗ')) return;
-                stats.wood -= requiredWood; addResource('gold', gainedGold);
-                showFloatingText(`+${gainedGold}🪙`, "#fbbf24");
-                log(`🏛️ Bán ${requiredWood} Gỗ lấy ${gainedGold} Vàng.`);
-            } else if (type === 'stoneToGold') {
-                let requiredStone = 15 * multiplier;
-                let gainedGold = 25 * multiplier;
-                if (stats.stone < requiredStone) { log(`❌ Không đủ đá! Cần ${requiredStone}🧱.`); return; }
-                if(!spendAction('Bán Đá')) return;
-                stats.stone -= requiredStone; addResource('gold', gainedGold);
-                showFloatingText(`+${gainedGold}🪙`, "#fbbf24");
-                log(`🏛️ Bán ${requiredStone} Đá lấy ${gainedGold} Vàng.`);
-            } else if (type === 'goldToFood') {
-                let requiredGold = 18 * multiplier;
-                let gainedFood = 25 * multiplier;
-                if (stats.gold < requiredGold) { log(`❌ Không đủ vàng! Cần ${requiredGold}🪙.`); return; }
-                if(!spendAction('Mua Lương Thực')) return;
-                stats.gold -= requiredGold; addResource('food', gainedFood);
-                showFloatingText(`+${gainedFood}🌾`, "#34d399");
-                log(`🏛️ Mua ${gainedFood} Lương thực với giá ${requiredGold}🪙.`);
-            } else if (type === 'crystalTrade') {
-                let requiredCrystal = 10 * multiplier;
-                let gainedGold = 60 * multiplier;
-                if (stats.crystal < requiredCrystal) { log(`❌ Không đủ ma thạch! Cần ${requiredCrystal}🔮.`); return; }
-                if(!spendAction('Đổi Ma Thạch')) return;
-                stats.crystal -= requiredCrystal; addResource('gold', gainedGold);
-                showFloatingText(`+${gainedGold}🪙`, "#fbbf24");
-                log(`🏛️ Đổi ${requiredCrystal} Ma Thạch lấy ${gainedGold} Vàng.`);
-            }
-
-            checkQuestProgress('accumulate_gold');
-            updateUI();
-            playSound('click');
+            const map={woodToGold:['wood','sell'],stoneToGold:['stone','sell'],goldToFood:['food','buy'],crystalTrade:['crystal','sell']}; const x=map[type]; if(!x)return; const old=document.getElementById('qty-'+type); const qty=Math.max(1,Math.floor(Number(old?.value||1))); switchTab('market'); setTimeout(()=>{const input=document.getElementById(`marketQty-${x[1]}-${x[0]}`); if(input){input.value=qty; marketTrade(x[0],x[1]);}},0);
         }
-
 
         function getTradeCapacity() {
             const markets = gridData.filter(c => c.type === 'market').reduce((n,c) => n + (c.level || 1), 0);
@@ -3796,6 +3728,7 @@ function refreshTechTree(){
             stats.actionsUsed = 0;
             recoverArmyStamina(currentTurnDetails);
             stats.turn++;
+            shiftMarketPrices();
             processEmpireTurn(currentTurnDetails);
 
             if (specialEventCooldown > 0) specialEventCooldown--;
@@ -4840,6 +4773,26 @@ mini.addEventListener('click',focus);window.__tinyMinimapSchedule=schedule;windo
         window.addEventListener('resize',()=>{tooltip.style.display='none';last=-2},{passive:true});
     })();
     </script>
+
+<script>
+(function(){
+  function splitConditions(){
+    document.querySelectorAll('.action-card b').forEach(function(el){
+      if(el.querySelector('.condition-line')) return;
+      var t=el.textContent;
+      var m=t.match(/^(.*?)(\s*\([^)]*\))\s*$/);
+      if(!m) return;
+      el.textContent=m[1].trim();
+      var span=document.createElement('span');
+      span.className='condition-line';
+      span.textContent=m[2].trim();
+      el.appendChild(span);
+    });
+  }
+  document.addEventListener('DOMContentLoaded',splitConditions);
+  if(window.MutationObserver) new MutationObserver(splitConditions).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html
             renderEmpirePanel();>
@@ -4848,4 +4801,22 @@ mini.addEventListener('click',focus);window.__tinyMinimapSchedule=schedule;windo
 window.addEventListener('load', () => {
     setTimeout(() => { if (typeof showKingdomNaming === 'function') showKingdomNaming(false); }, 80);
 });
-</script>
+</script>        <style id="market-v2-css">
+        .market-tab-v2{grid-template-columns:1fr!important;gap:8px!important}
+        .market-v2-head,.market-v2-panel{background:#0d111b;border:1px solid #27324a;border-radius:9px;padding:9px}
+        .market-v2-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+        .market-v2-head b{color:#fbbf24}.market-v2-head small{display:block;color:#8293a8;margin-top:2px;font-size:.68rem}
+        .market-v2-stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;font-size:.68rem;color:#94a3b8}.market-v2-stats b{color:#f8fafc}
+        .market-v2-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.market-v2-bottom{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:8px}
+        .market-section-title{font-size:.74rem;font-weight:900;color:#c084fc;border-bottom:1px solid #27324a;padding-bottom:5px;margin-bottom:6px}
+        .market-row{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid #1b2433}
+        .market-row:last-child{border-bottom:0}.market-row b{font-size:.74rem}.market-row small{display:block;color:#8293a8;font-size:.6rem}
+        .market-price{font-size:.66rem;color:#f8fafc;text-align:right;white-space:nowrap}.market-price .down{color:#34d399}.market-price .up{color:#f87171}
+        .market-row input{width:48px;background:#07070a;border:1px solid #33334d;color:#fff;padding:4px;border-radius:4px;text-align:center}
+        .market-row button,.market-contract button{border:1px solid #475569;background:#172033;color:#fff;border-radius:5px;padding:4px 7px;font-weight:800;cursor:pointer}.market-row button:hover,.market-contract button:hover{border-color:#fbbf24}
+        .market-mini{font-size:.64rem;color:#94a3b8;display:flex;justify-content:space-between;gap:6px;padding:4px 0;border-bottom:1px solid #1b2433}.market-mini:last-child{border-bottom:0}
+        .market-contract{background:#111827;border:1px solid #253047;border-radius:6px;padding:6px;margin-bottom:5px;font-size:.65rem}.market-contract small{display:block;color:#8293a8;margin:2px 0 5px}.market-contract.done{opacity:.65}
+        .market-local-note{background:#101827;border:1px solid #26344d;border-radius:8px;padding:7px;color:#a5b4fc;font-size:.65rem}
+        @media(max-width:850px){.market-v2-grid,.market-v2-bottom{grid-template-columns:1fr}.market-v2-head{flex-direction:column;align-items:flex-start}.market-v2-stats{justify-content:flex-start}}
+        </style>
+
